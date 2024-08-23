@@ -10,6 +10,13 @@ public class Plants {
 
     //constructor
     public Plants(String name,float healt, int positionX, int positionY, int sunCost, float reloadTime, float missingTime) {
+        this.name = name;
+        this.health = healt;
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.sunCost = sunCost;
+        this.reloadTime = reloadTime;
+        this.missingTime = missingTime;
 
     }
 
@@ -20,5 +27,37 @@ public class Plants {
         } else{
             return false;//retorna false si todavia no se termina el tiempo de espera
         }
+    }
+
+
+    //gets
+
+    //get name
+    public String getName() {
+        return name;
+    }
+    //get position
+    public String getPosition() {
+        return (positionX + ", "+ positionY);
+    }
+    //get position x
+    public int getX() {
+        return (positionX);
+    }
+    //get position y
+    public int getY() {
+        return (positionY);
+    }
+    //get health
+    public float getHealth() {
+        return health;
+    }
+    //get costo
+    public int getSunCost() {
+        return sunCost;
+    }
+    //get de tiempo que demora en cargar
+    public float getReloadTime() {
+        return reloadTime;
     }
 }
