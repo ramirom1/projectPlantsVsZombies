@@ -1,3 +1,5 @@
+package plants;
+
 //definicion  de la subclase Sunflower
 public class SunFlower extends Plants {
     private int generateSuns; //25 soles

@@ -1,3 +1,5 @@
+package plants;
+
 public class Plants {
     //atributos
     private String name;
