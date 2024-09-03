@@ -7,7 +7,7 @@ public class Guisantralladora extends Repetidora{
         super(x,y);
         this.setDemage(400);
         this.setName("Guisantralladora");
-        this.setSunCost(200);
+        this.setSunCost(250);
         this.setPlantInGame(false);
         //falta lo del tiempo
     }

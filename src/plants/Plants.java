@@ -4,9 +4,7 @@ import Entity.Entity;
 
 public class Plants extends Entity {
     //atributos
-    private float health;
-    private int positionX;
-    private int positionY;
+
     private int sunCost;
     private float reloadTime; //timepo que demora en volver a cargar
     private float missingTime; //este tiempo tiene que disminuir hasta llegar a 0 para que se pueda volver a usar
@@ -31,11 +29,6 @@ public class Plants extends Entity {
 
 
     //gets
-
-    //get position
-    public String getPosition() {
-        return (positionX + ", "+ positionY);
-    }
 
     //get costo
     public int getSunCost() {
