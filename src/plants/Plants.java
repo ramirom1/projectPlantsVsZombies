@@ -1,8 +1,9 @@
 package plants;
 
-public class Plants {
+import Entity.Entity;
+
+public class Plants extends Entity {
     //atributos
-    private String name;
     private float health;
     private int positionX;
     private int positionY;
@@ -11,11 +12,8 @@ public class Plants {
     private float missingTime; //este tiempo tiene que disminuir hasta llegar a 0 para que se pueda volver a usar
 
     //constructor
-    public Plants(String name,float healt, int positionX, int positionY, int sunCost, float reloadTime, float missingTime) {
-        this.name = name;
-        this.health = healt;
-        this.positionX = positionX;
-        this.positionY = positionY;
+    public Plants(String name,int healt, int positionX, int positionY, int sunCost, float reloadTime, float missingTime) {
+        super(healt,name,positionX,positionY);
         this.sunCost = sunCost;
         this.reloadTime = reloadTime;
         this.missingTime = missingTime;
@@ -34,26 +32,11 @@ public class Plants {
 
     //gets
 
-    //get name
-    public String getName() {
-        return name;
-    }
     //get position
     public String getPosition() {
         return (positionX + ", "+ positionY);
     }
-    //get position x
-    public int getX() {
-        return (positionX);
-    }
-    //get position y
-    public int getY() {
-        return (positionY);
-    }
-    //get health
-    public float getHealth() {
-        return health;
-    }
+
     //get costo
     public int getSunCost() {
         return sunCost;
@@ -62,4 +45,10 @@ public class Plants {
     public float getReloadTime() {
         return reloadTime;
     }
+
+    //set para costo
+    public void setSunCost(int sunCost) {
+        this.sunCost = sunCost;
+    }
+
 }
