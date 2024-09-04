@@ -7,7 +7,7 @@ public class ZombieSaltador extends Zombie {
         this.setName("Zombie Saltador");
     }
 
-    //Falta implementar, lo podemos manejar desde Board
+    //Falta implementar, lo podemos manejar desde game.Board
     public void jump(){
     }
 }

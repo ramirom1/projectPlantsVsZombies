@@ -1,6 +1,7 @@
 package plants;
 
 import Entity.Attack;
+import game.Board;
 
 public class Petacereza extends Plants implements Attack {
     private int radio;
@@ -15,7 +16,7 @@ public class Petacereza extends Plants implements Attack {
     }
 
     //metodo que hace la explosion
-    public void attack() {
+    public void attack(Board board) {
         //que quite el daño
         //que se elimine del tablero
         System.out.println("¡¡BOOM!!");

@@ -1,6 +1,7 @@
 package plants;
 
 import Entity.Attack;
+import game.Board;
 
 public class Gasoseta extends Patatapum implements Attack {
     private int radio = 1;
@@ -14,7 +15,7 @@ public class Gasoseta extends Patatapum implements Attack {
     }
 
     @Override
-    public void attack() {
+    public void attack(Board board) {
         //quitar vida en un radio de 1 a todos los zombies
         //este no desaparece
         System.out.println("la gasoseta esta atacando");

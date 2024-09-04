@@ -1,6 +1,7 @@
 package plants;
 
 import Entity.Attack;
+import game.Board;
 
 public class HielaGuisante extends LanzaGisante implements Attack {
     private boolean slowDown = true;
@@ -16,7 +17,7 @@ public class HielaGuisante extends LanzaGisante implements Attack {
 
 
     @Override
-    public void attack() {
+    public void attack(Board board) {
         //atacar al zombie
         //relentizarlo
         System.out.println("Hiela Guisante Ataca");

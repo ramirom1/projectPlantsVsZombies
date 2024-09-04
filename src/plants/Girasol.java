@@ -35,7 +35,7 @@ public class Girasol extends Plants {
     //set
 
     public String getInfo(){
-        return ("This plant is " + this.getName() + " - Position: (" + this.getPosition() + ", " + this.getPositionY() + ") ");
+        return ("This plant is " + this.getName() +   ", " + this.getPositionY() + ") ");
     }
 
 }

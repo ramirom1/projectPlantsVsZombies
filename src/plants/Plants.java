@@ -2,7 +2,7 @@ package plants;
 
 import Entity.Entity;
 
-public class Plants extends Entity {
+public abstract class Plants extends Entity {
     //atributos
 
     private int sunCost;

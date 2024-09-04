@@ -1,6 +1,7 @@
 package plants;
 
 import Entity.Attack;
+import game.Board;
 
 public class Patatapum extends Plants implements Attack {
     private int demage;
@@ -15,7 +16,7 @@ public class Patatapum extends Plants implements Attack {
     }
 
     //accion de explotar
-    public void attack(){
+    public void attack(Board board){
         //quitar vida a los zombies
         //desaparecer patatapum
         plantInGame = false;
