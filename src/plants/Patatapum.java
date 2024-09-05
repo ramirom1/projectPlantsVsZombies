@@ -9,8 +9,8 @@ public class Patatapum extends Plants implements Attack {
     private boolean plantInGame;
 
     //constuctor
-    public Patatapum(int x, int y) {
-        super("Patatapum",500,x,y, 25,1,1);
+    public Patatapum(int column, int row) {
+        super("Patatapum",500,column,row, 25,1,1);
         this.demage = 1500;
         this.loadTime = 2;
     }

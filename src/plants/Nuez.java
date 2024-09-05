@@ -3,8 +3,8 @@ package plants;
 public class Nuez extends Plants{
 
     //constructor
-    public Nuez(int x, int y) {
-        super("Nuez",1500,x,y,50,1,1);
+    public Nuez(int column, int row) {
+        super("Nuez",1500,column,row,50,1,1);
     }
 
 }

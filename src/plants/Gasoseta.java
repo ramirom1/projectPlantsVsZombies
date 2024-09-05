@@ -5,8 +5,8 @@ import game.Board;
 
 public class Gasoseta extends Patatapum implements Attack {
     private int radio = 1;
-    public Gasoseta(int x,int y){
-        super(x,y);
+    public Gasoseta(int column,int row){
+        super(column,row);
         this.radio = 1;
         this.setName("Gasoseta");
         this.setDemage(150);

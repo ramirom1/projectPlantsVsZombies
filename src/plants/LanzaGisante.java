@@ -10,16 +10,16 @@ import java.util.List;
 public class LanzaGisante extends Plants implements Attack {
     private int demage;
 
-    public LanzaGisante(int x, int y) {
-        super("Lanza Guisante",500,x,y,100,1,1);
+    public LanzaGisante(int column, int row) {
+        super("Lanza Guisante",500,column,row,100,1,1);
         this.demage = 100;
     }
 
     //implementacion attack
     public void attack(Board board) {
         // Obtener la posición de la planta
-        int x = this.getPositionX();
-        int y = this.getPositionY();
+        int x = this.getColumn();
+        int y = this.getRow();
 
         // Recorremos las columnas desde la posición actual hasta el final de la fila
         for (int j = y; j < 9; j++) {  // El tablero tiene 10 columnas

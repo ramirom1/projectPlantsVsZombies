@@ -7,8 +7,8 @@ public class HielaGuisante extends LanzaGisante implements Attack {
     private boolean slowDown = true;
 
     //constructor
-    public HielaGuisante(int x, int y) {
-        super(x,y);
+    public HielaGuisante(int column, int row) {
+        super(column,row);
         this.setSunCost(175);
         this.setName("Hiela Guisante");
     }

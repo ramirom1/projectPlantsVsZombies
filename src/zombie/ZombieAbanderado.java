@@ -2,8 +2,8 @@ package zombie;
 
 public class ZombieAbanderado extends Zombie{
 
-    public ZombieAbanderado(int positionY) {
-        super(positionY);
+    public ZombieAbanderado(int row) {
+        super(row);
         this.setName("Zombie Abanderado");
     }
 

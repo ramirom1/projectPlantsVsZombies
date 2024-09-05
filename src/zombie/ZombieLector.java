@@ -2,8 +2,8 @@ package zombie;
 
 public class ZombieLector extends Zombie{
 
-    public ZombieLector(int positionY) {
-        super(positionY);
+    public ZombieLector(int row) {
+        super(row);
         this.setName("Zombie Lector");
         this.setLife(700);
     }

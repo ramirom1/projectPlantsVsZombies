@@ -4,8 +4,8 @@ public class Repetidora extends LanzaGisante {
     private boolean plantInGame = false;
 
     //constructor
-    public Repetidora(int x, int y) {
-        super(x,y);
+    public Repetidora(int column, int row) {
+        super(column,row);
         this.plantInGame = true;
         this.setName("Repetidora");
         this.setDemage(200);

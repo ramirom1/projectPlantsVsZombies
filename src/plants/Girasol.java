@@ -7,8 +7,8 @@ public class Girasol extends Plants {
     private boolean plantInPlay = false; //para ver si hay algun girasol en juego y despues poder poner el birasol
 
     //constructor llamo a la super clase y cargo  los valores
-    public Girasol(int x, int y) {
-        super("Girasol",100, x, y, 50, 4, 4);
+    public Girasol(int column, int row) {
+        super("Girasol",100, column, row, 50, 4, 4);
         this.generateSuns = 25;
         this.generationTime = 25;
         this.plantInPlay = true;
@@ -33,10 +33,6 @@ public class Girasol extends Plants {
 
 
     //set
-
-    public String getInfo(){
-        return ("This plant is " + this.getName() +   ", " + this.getPositionY() + ") ");
-    }
 
 }
 

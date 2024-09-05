@@ -12,13 +12,13 @@ public class Main {
     public static void main(String[] args) {
 
         Board tablero = new Board();
-        LanzaGisante gisante = new LanzaGisante(1,1);
-        Zombie zom = new Zombie(1);
+        LanzaGisante gisante = new LanzaGisante(3,0);
+        Zombie zom = new Zombie(0);
 
-        System.out.println(zom.getPositionX()+","+zom.getPositionY());
-        System.out.println(gisante.getPositionX()+","+gisante.getPositionY());
-        tablero.board[gisante.getPositionX()][gisante.getPositionY()].add(gisante);
-        tablero.board[zom.getPositionX()][zom.getPositionY()].add(zom);
+        System.out.println(zom.getColumn()+","+zom.getRow());
+        System.out.println(gisante.getColumn()+","+gisante.getRow());
+        tablero.board[gisante.getRow()][gisante.getColumn()].add(gisante); // hay un problema con los x e y
+        tablero.board[zom.getRow()][zom.getColumn()].add(zom);
 
         System.out.println(zom.getLife());
 

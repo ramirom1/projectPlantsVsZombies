@@ -2,8 +2,8 @@ package plants;
 
 public class Birasol extends Girasol {
     // Constructor
-    public Birasol(int x, int y) {
-        super(x, y);
+    public Birasol(int column, int row) {
+        super(column, row);
         this.setName("Birasol");
         this.setSunCost(150);//
     }

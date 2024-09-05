@@ -8,8 +8,8 @@ public class Petacereza extends Plants implements Attack {
     private int demage;
 
     //constructor
-    public Petacereza(int x,int y) {
-        super("Petacereza",600,x,y,150,1,1);
+    public Petacereza(int column,int row) {
+        super("Petacereza",600,column,row,150,1,1);
         this.radio = 1;
         this.demage = 1500;
 

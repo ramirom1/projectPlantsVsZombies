@@ -7,8 +7,8 @@ import game.Board;
 public class Zombie extends Entity implements Attack {
     private int speed;
 
-    public Zombie(int positionY) {
-        super(500, "Zombie", 3, positionY);
+    public Zombie(int row) {
+        super(500, "Zombie", 9, row);
         this.speed = 1; //1 velocidad normal, 2 velocidad rápida
     }
 

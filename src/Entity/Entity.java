@@ -3,13 +3,13 @@ package Entity;
 public abstract class Entity {
     private int life;
     private String name;
-    private int positionX, positionY;
+    private int column, row;
 
-    public Entity(int life, String name, int positionX, int positionY) {
+    public Entity(int life, String name, int column, int row) {
         this.life = life;
         this.name = name;
-        this.positionX = positionX;
-        this.positionY = positionY;
+        this.column = column;
+        this.row = row;
     }
 
     //Getters & setters
@@ -17,12 +17,12 @@ public abstract class Entity {
         this.name = name;
     }
 
-    public void setPositionX(int positionX) {
-        this.positionX = positionX;
+    public void setColumn(int column) {
+        this.column = column;
     }
 
-    public void setPositionY(int positionY) {
-        this.positionY = positionY;
+    public void setRow(int row) {
+        this.row = row;
     }
 
     public void setLife(int life) {
@@ -37,11 +37,11 @@ public abstract class Entity {
         return name;
     }
 
-    public int getPositionX() {
-        return positionX;
+    public int getColumn() {
+        return column;
     }
 
-    public int getPositionY() {
-        return positionY;
+    public int getRow() {
+        return row;
     }
 }

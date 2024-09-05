@@ -10,8 +10,8 @@ public abstract class Plants extends Entity {
     private float missingTime; //este tiempo tiene que disminuir hasta llegar a 0 para que se pueda volver a usar
 
     //constructor
-    public Plants(String name,int healt, int positionX, int positionY, int sunCost, float reloadTime, float missingTime) {
-        super(healt,name,positionX,positionY);
+    public Plants(String name,int healt, int column, int row, int sunCost, float reloadTime, float missingTime) {
+        super(healt,name,column,row);
         this.sunCost = sunCost;
         this.reloadTime = reloadTime;
         this.missingTime = missingTime;
