@@ -27,6 +27,12 @@ public abstract class Plants extends Entity {
         }
     }
 
+    public void takeDamage(int damage) {//el demage es el del zombie
+        this.setLife(this.getLife()-damage); //le resto a la vida actual el daño que hace el zombie
+        if (getLife() <= 0) {
+            // la planta muere si su salud es menor o igual a 0
+        }
+    }
 
     //gets
 

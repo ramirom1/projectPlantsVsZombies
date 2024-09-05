@@ -22,9 +22,9 @@ public class LanzaGisante extends Plants implements Attack {
         int y = this.getRow();
 
         // Recorremos las columnas desde la posición actual hasta el final de la fila
-        for (int j = y; j < 9; j++) {  // El tablero tiene 10 columnas
+        for (int j = x; j < 10; j++) {  // El tablero tiene 10 columnas
             // Obtenemos la lista de entidades en la casilla (x, j)
-            List<Entity> entities = board.getEntitiesAt(x, j);
+            List<Entity> entities = board.getEntitiesAt(y, j);
 
             // Buscar al primer zombie en la casilla actual
             for (Entity entity : entities) {

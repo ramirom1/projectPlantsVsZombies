@@ -12,11 +12,11 @@ public class Main {
     public static void main(String[] args) {
 
         Board tablero = new Board();
-        LanzaGisante gisante = new LanzaGisante(3,0);
+        LanzaGisante gisante = new LanzaGisante(9,0);
         Zombie zom = new Zombie(0);
 
-        System.out.println(zom.getColumn()+","+zom.getRow());
-        System.out.println(gisante.getColumn()+","+gisante.getRow());
+        //System.out.println(zom.getColumn()+","+zom.getRow());
+        //System.out.println(gisante.getColumn()+","+gisante.getRow());
         tablero.board[gisante.getRow()][gisante.getColumn()].add(gisante); // hay un problema con los x e y
         tablero.board[zom.getRow()][zom.getColumn()].add(zom);
 
@@ -27,6 +27,8 @@ public class Main {
         System.out.println(zom.getLife());
 
         tablero.printBoard();
+        zom.attack(tablero);
+        System.out.println(gisante.getLife());
         }
 
     }
