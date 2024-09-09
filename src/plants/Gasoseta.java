@@ -1,12 +1,15 @@
 package plants;
 
 import Entity.Attack;
+import Entity.Entity;
 import game.Board;
+
+import java.util.LinkedList;
 
 public class Gasoseta extends Patatapum implements Attack {
     private int radio = 1;
-    public Gasoseta(int column,int row){
-        super(column,row);
+    public Gasoseta(int column,int row,Board board, LinkedList<Entity> listClassification) {
+        super(column,row,board,listClassification);
         this.radio = 1;
         this.setName("Gasoseta");
         this.setDemage(150);

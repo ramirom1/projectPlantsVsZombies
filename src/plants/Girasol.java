@@ -1,5 +1,10 @@
 package plants;
 
+import Entity.Entity;
+import game.Board;
+
+import java.util.LinkedList;
+
 //definicion  de la subclase Sunflower
 public class Girasol extends Plants {
     protected int generateSuns; //25 soles
@@ -7,8 +12,8 @@ public class Girasol extends Plants {
     private boolean plantInPlay = false; //para ver si hay algun girasol en juego y despues poder poner el birasol
 
     //constructor llamo a la super clase y cargo  los valores
-    public Girasol(int column, int row) {
-        super("Girasol",100, column, row, 50, 4, 4);
+    public Girasol(int column, int row, Board board, LinkedList<Entity> listClassification) {
+        super("Girasol",100, column, row, 50, 4, 4,board,listClassification);
         this.generateSuns = 25;
         this.generationTime = 25;
         this.plantInPlay = true;

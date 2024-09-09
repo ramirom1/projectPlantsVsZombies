@@ -25,6 +25,16 @@ public class Board {
         }
     }
 
+    //metodo para eliminar entidades del talbero
+    public void removeEntity(Entity entity, int x, int y) {
+        if (x >= 0 && x < FILAS && y >= 0 && y < COL) {
+            board[x][y].remove(entity);  // Remueve la entidad de la lista en la posición (x, y)
+
+        }
+    }
+
+
+
     public List<Entity> getEntitiesAt(int x, int y) {
         if (x >= 0 && x < FILAS && y >= 0 && y < COL) {
             return board[x][y];
@@ -57,4 +67,8 @@ public class Board {
             System.out.println(); // Nueva línea después de cada fila
         }
     }
+
+    //hacer los getters y setters
+
+
 }

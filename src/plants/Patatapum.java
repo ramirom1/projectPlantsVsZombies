@@ -1,7 +1,10 @@
 package plants;
 
 import Entity.Attack;
+import Entity.Entity;
 import game.Board;
+
+import java.util.LinkedList;
 
 public class Patatapum extends Plants implements Attack {
     private int demage;
@@ -9,8 +12,8 @@ public class Patatapum extends Plants implements Attack {
     private boolean plantInGame;
 
     //constuctor
-    public Patatapum(int column, int row) {
-        super("Patatapum",500,column,row, 25,1,1);
+    public Patatapum(int column, int row,Board board, LinkedList<Entity> listClassification) {
+        super("Patatapum",500,column,row, 25,1,1,board,listClassification);
         this.demage = 1500;
         this.loadTime = 2;
     }

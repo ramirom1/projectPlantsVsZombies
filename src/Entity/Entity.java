@@ -1,15 +1,19 @@
 package Entity;
 
+import java.util.LinkedList;
+
 public abstract class Entity {
     private int life;
     private String name;
     private int column, row;
+    private LinkedList<Entity> classificationEntity;
 
-    public Entity(int life, String name, int column, int row) {
+    public Entity(int life, String name, int column, int row, LinkedList<Entity> classificationEntity) {
         this.life = life;
         this.name = name;
         this.column = column;
         this.row = row;
+        this.classificationEntity = classificationEntity;
     }
 
     //Getters & setters
@@ -44,4 +48,10 @@ public abstract class Entity {
     public int getRow() {
         return row;
     }
+
+    public void removeEntityList(Entity entity) {
+        this.classificationEntity.remove(entity);
+    }
+
+
 }

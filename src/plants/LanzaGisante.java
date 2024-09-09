@@ -5,14 +5,15 @@ import Entity.Entity;
 import zombie.Zombie;
 import game.Board;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class LanzaGisante extends Plants implements Attack {
     private int demage;
 
-    public LanzaGisante(int column, int row) {
-        super("Lanza Guisante",500,column,row,100,1,1);
-        this.demage = 100;
+    public LanzaGisante(int column, int row, Board board, LinkedList<Entity> listClassification) {
+        super("Lanza Guisante",500,column,row,100,1,1,board,listClassification);
+        this.demage = 500;
     }
 
     //implementacion attack

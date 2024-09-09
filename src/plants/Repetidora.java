@@ -1,11 +1,16 @@
 package plants;
 
+import Entity.Entity;
+import game.Board;
+
+import java.util.LinkedList;
+
 public class Repetidora extends LanzaGisante {
     private boolean plantInGame = false;
 
     //constructor
-    public Repetidora(int column, int row) {
-        super(column,row);
+    public Repetidora(int column, int row, Board board, LinkedList<Entity> listClassification) {
+        super(column,row,board,listClassification);
         this.plantInGame = true;
         this.setName("Repetidora");
         this.setDemage(200);

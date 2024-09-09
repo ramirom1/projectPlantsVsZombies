@@ -1,9 +1,14 @@
 package zombie;
 
+import Entity.Entity;
+import game.Board;
+
+import java.util.LinkedList;
+
 public class ZombieAbanderado extends Zombie{
 
-    public ZombieAbanderado(int row) {
-        super(row);
+    public ZombieAbanderado(int row, Board board, LinkedList<Entity> listClassification) {
+        super(row,board,listClassification);
         this.setName("Zombie Abanderado");
     }
 

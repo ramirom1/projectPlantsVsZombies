@@ -1,15 +1,18 @@
 package plants;
 
 import Entity.Attack;
+import Entity.Entity;
 import game.Board;
+
+import java.util.LinkedList;
 
 public class Petacereza extends Plants implements Attack {
     private int radio;
     private int demage;
 
     //constructor
-    public Petacereza(int column,int row) {
-        super("Petacereza",600,column,row,150,1,1);
+    public Petacereza(int column,int row,Board board, LinkedList<Entity> listClassification) {
+        super("Petacereza",600,column,row,150,1,1,board,listClassification);
         this.radio = 1;
         this.demage = 1500;
 

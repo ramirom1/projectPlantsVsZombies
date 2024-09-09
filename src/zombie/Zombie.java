@@ -3,17 +3,21 @@ import Entity.Entity;
 import Entity.Attack;
 import game.Board;
 import plants.Plants;
+
+import java.util.LinkedList;
 import java.util.List;
 
 
 public class Zombie extends Entity implements Attack {
     private int speed;
     private int demage;
+    private Board board;
 
-    public Zombie(int row) {
-        super(500, "Zombie", 9, row);
+    public Zombie(int row, Board board, LinkedList<Entity> listClassification) {
+        super(100, "Zombie", 9, row, listClassification);
         this.speed = 1; //1 velocidad normal, 2 velocidad rápida
-        this.demage = 100;
+        this.demage = 500;
+        this.board = board;
     }
 
     public void setSpeed(int speed) {
@@ -47,7 +51,16 @@ public class Zombie extends Entity implements Attack {
         this.setLife(this.getLife()-damage); //le resto a la vida actual el daño que hace la planta
         if (getLife() <= 0) {
              // El zombie muere si su salud es menor o igual a 0
+            die();
         }
     }
+
+    private void die() {
+        System.out.println(getName() + " ha muerto.");
+        // Llama al tablero para eliminar el zombie de su posición
+        board.removeEntity(this, getRow(), getColumn());
+        this.removeEntityList(this);
+    }
+
     //El juego va a encargarse de mover de lugar a los zombies
 }
