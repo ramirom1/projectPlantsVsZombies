@@ -1,21 +1,23 @@
 package game;
 import Entity.Entity;
 import plants.*;
+import zombie.Zombie;
+import java.util.Random;
 
-import java.util.LinkedList;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 //maneja el juego (turnos, quita de vida,etc)
 public class Game {
-    private LinkedList<Entity> aggrPlants = new LinkedList<Entity>();
+    private static LinkedList<Entity> aggrPlants = new LinkedList<Entity>();
     private static LinkedList<Entity> nonAggrPlants = new LinkedList<Entity>();
     private LinkedList<Entity> zombiesInBoard = new LinkedList<Entity>();
-    private LinkedList<Entity> zombiesToSpawn = new LinkedList<Entity>();
+    private static ArrayList<Entity> zombiesToSpawn = new ArrayList<Entity>();
     private static Scanner scanner = new Scanner(System.in);
     private static Board gameBoard = new Board();
-    private static int currentRound = 0, totalSuns = 50;
+    private static int currentRound = 0, totalSuns = 150;
     private static boolean continueGame = true;
+    private static boolean continuePlanting = true;
+    static Random random = new Random();
 
 
     public static void main(String[] args) {
@@ -26,91 +28,23 @@ public class Game {
             System.out.println("Cantidad de Soles: " + totalSuns);
             gameBoard.printBoard();
             //Desplegar menu de plantas
-            System.out.println("¿Desea plantar alguna aliada más? (S/N)");
+            System.out.println("¿Desea plantar alguna aliada? (S/N)");
             char answer = Character.toLowerCase(scanner.next().charAt(0));
-            if (answer == 's'){
-                /// Todo esto se podria implementar en un metodo aparte
-
-                System.out.println("Indique que planta quiere ubicar");
-                int plantNum = choosePlant();
-                System.out.println("Indique la fila: ");
-                int rowToPlant = scanner.nextInt();
-                System.out.println("Indique la columna: ");
-                // guardar columna
-                int columnToPlant = scanner.nextInt();
-                Entity plantType = null;
-
-                //hacer switch-case
-                switch (plantNum){
-                    case 1:
-                        if (totalSuns >= 50){
-                            plantType = new Girasol(columnToPlant,rowToPlant);
-                        }
-                        else {
-                            System.out.println("No tienes suficientes soles");
-                        }
-                        break;
-                    case 2:
-                        if (totalSuns >= 100) {
-                            plantType = new LanzaGisante(columnToPlant, rowToPlant);
-                        }
-                        else {
-                            System.out.println("No tienes suficientes soles");
-                        }
-                        break;
-                    case 3:
-                        if (totalSuns >= 50) {
-                            plantType = new Nuez(columnToPlant, rowToPlant);
-                        }
-                        else {
-                            System.out.println("No tienes suficientes soles");
-                        }
-                        break;
-                    case 4:
-                        if (totalSuns >= 175) {
-                            plantType = new HielaGuisante(columnToPlant, rowToPlant);
-                        }
-                        else {
-                            System.out.println("No tienes suficientes soles");
-                        }
-                        break;
-                    case 5:
-                        if (totalSuns >= 150) {
-                            plantType = new Repetidora(columnToPlant, rowToPlant);
-                        }
-                        else {
-                            System.out.println("No tienes suficientes soles");
-                        }
-                        break;
-                    case 6:
-                        if (totalSuns >= 25) {
-                            plantType = new Patatapum(columnToPlant, rowToPlant);
-                        }
-                        else {
-                            System.out.println("No tienes suficientes soles");
-                        }
-                        break;
-                    case 7:
-                        if (totalSuns >= 150) {
-                            plantType = new Petacereza(columnToPlant, rowToPlant);
-                        }
-                        else {
-                            System.out.println("No tienes suficientes soles");
-                        }
-                        break;
-                    default:
-                        System.out.println("El número ingresado es inválido");
-                        break;
+            while (continuePlanting){
+                plant(answer);
+                System.out.println("¿Desea intentar plantar otra cosa? (S/N)");
+                char answer2 = Character.toLowerCase(scanner.next().charAt(0));  // Preguntar si quieren seguir intentando
+                if (answer2 != 's') {
+                    System.out.println("Pasando a la siguiente ronda");
+                    continuePlanting = false;
+                    break;
                 }
-
-                if (plantType != null){
-                    gameBoard.board[rowToPlant][columnToPlant].add(plantType);
-                }
-
             }
-            // llamar a attack (hay que implementarlo)
-            //llamar a move (hay que implementarlo)
 
+
+
+
+            // Aquí continuar con la ronda de ataque y movimiento
             currentRound++;
         }
     }
@@ -129,6 +63,129 @@ public class Game {
         }
     }
 
+    public static void plant(char answer) {
+        if (answer == 's') {
+            System.out.println("Indique que planta quiere ubicar");
+            int plantNum = choosePlant();
+
+            // Determinar el tipo de planta basado en el costo
+            Plants plantType = null;
+            switch (plantNum) {
+                case 1:
+                    if (totalSuns >= 50) {
+                        plantType = new Girasol(1, 1, gameBoard, nonAggrPlants);
+                        nonAggrPlants.add(plantType);
+                        totalSuns -= 50;
+                    } else {
+                        System.out.println("No tienes suficientes soles");
+                    }
+                    break;
+                case 2:
+                    if (totalSuns >= 100) {
+                        plantType = new LanzaGisante(1, 1, gameBoard, aggrPlants);
+                        aggrPlants.add(plantType);
+                        totalSuns -= 100;
+                    } else {
+                        System.out.println("No tienes suficientes soles");
+                    }
+                    break;
+                case 3:
+                    if (totalSuns >= 50) {
+                        plantType = new Nuez(1, 1, gameBoard, nonAggrPlants);
+                        nonAggrPlants.add(plantType);
+                        totalSuns -= 50;
+                    } else {
+                        System.out.println("No tienes suficientes soles");
+                    }
+                    break;
+                case 4:
+                    if (totalSuns >= 175) {
+                        plantType = new HielaGuisante(1, 1, gameBoard, aggrPlants);
+                        aggrPlants.add(plantType);
+                        totalSuns -= 175;
+                    } else {
+                        System.out.println("No tienes suficientes soles");
+                    }
+                    break;
+                case 5:
+                    if (totalSuns >= 150) {
+                        plantType = new Repetidora(1, 1, gameBoard, aggrPlants);
+                        aggrPlants.add(plantType);
+                        totalSuns -= 150;
+                    } else {
+                        System.out.println("No tienes suficientes soles");
+                    }
+                    break;
+                case 6:
+                    if (totalSuns >= 25) {
+                        plantType = new Patatapum(1, 1, gameBoard, aggrPlants);
+                        aggrPlants.add(plantType);
+                        totalSuns -= 25;
+                    } else {
+                        System.out.println("No tienes suficientes soles");
+                    }
+                    break;
+                case 7:
+                    if (totalSuns >= 150) {
+                        plantType = new Petacereza(1, 1, gameBoard, aggrPlants);
+                        aggrPlants.add(plantType);
+                        totalSuns -= 150;
+                    } else {
+                        System.out.println("No tienes suficientes soles");
+                    }
+                    break;
+                default:
+                    System.out.println("El número ingresado es inválido");
+                    break;
+            }
+
+            if (plantType != null) {
+                // Pedir la fila y columna
+                boolean changePos = false;
+
+                do {
+                    System.out.println("Indique la fila: ");
+                    int rowToPlant = scanner.nextInt();
+                    while (rowToPlant < 1 || rowToPlant > 5) {
+                        System.out.println("Fila fuera de rango, ingrese nuevamente");
+                        rowToPlant = scanner.nextInt();
+                    }
+
+                    System.out.println("Indique la columna: ");
+                    int columnToPlant = scanner.nextInt();
+                    while (columnToPlant < 1 || columnToPlant > 10) {
+                        System.out.println("Columna fuera de rango, ingrese nuevamente");
+                        columnToPlant = scanner.nextInt();
+                    }
+
+                    if (!containsPlant(gameBoard.board[rowToPlant - 1][columnToPlant - 1])) {
+                        //asignarle la fila y columna a la planta
+                        plantType.setRow(rowToPlant - 1);
+                        plantType.setColumn(columnToPlant - 1);
+                        // Colocar la planta en el tablero
+                        gameBoard.board[rowToPlant - 1][columnToPlant - 1].add(plantType);
+                        changePos = false;
+                    } else {
+                        System.out.println("Esa posicion ya está ocupada, ingrese otra distinta");
+                        changePos = true;
+                    }
+                } while (changePos);
+            }
+        } else {
+            System.out.println("Pasando a la siguiente ronda");
+        }
+    }
+
+
+    public static boolean containsPlant(List<Entity> list){
+        for (Entity entity : list) {
+            if (entity instanceof Plants) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void attackRound(){
     }
 
@@ -144,6 +201,11 @@ public class Game {
         System.out.println("5- Repetidora       150");
         System.out.println("6- Patatapum        25");
         System.out.println("7- Petacereza       150");
-        return scanner.nextInt();
+        int answer = scanner.nextInt();
+        while (answer < 1 || answer > 7) {
+            System.out.println("Opcion no valida, ingrese nuevamente");
+            answer = scanner.nextInt();
+        }
+        return answer;
     }
 }
