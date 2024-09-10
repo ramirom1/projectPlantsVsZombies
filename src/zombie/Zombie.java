@@ -14,7 +14,7 @@ public class Zombie extends Entity implements Attack {
     private Board board;
 
     public Zombie(int row, Board board, LinkedList<Entity> listClassification) {
-        super(100, "Zombie", 9, row, listClassification);
+        super(400, "Zombie", 9, row, listClassification);
         this.speed = 1; //1 velocidad normal, 2 velocidad rápida
         this.demage = 500;
         this.board = board;

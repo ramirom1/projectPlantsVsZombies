@@ -1,7 +1,7 @@
 package game;
 import Entity.Entity;
 import plants.*;
-import zombie.Zombie;
+import zombie.*;
 import java.util.Random;
 
 import java.util.*;
@@ -10,13 +10,12 @@ import java.util.*;
 public class Game {
     private static LinkedList<Entity> aggrPlants = new LinkedList<Entity>();
     private static LinkedList<Entity> nonAggrPlants = new LinkedList<Entity>();
-    private LinkedList<Entity> zombiesInBoard = new LinkedList<Entity>();
-    private static ArrayList<Entity> zombiesToSpawn = new ArrayList<Entity>();
+    private static LinkedList<Entity> zombiesInBoard = new LinkedList<Entity>();
+    private static LinkedList<Entity> zombiesToSpawn = new LinkedList<Entity>();
     private static Scanner scanner = new Scanner(System.in);
     private static Board gameBoard = new Board();
-    private static int currentRound = 0, totalSuns = 150;
+    private static int currentRound = 0, totalSuns = 500;
     private static boolean continueGame = true;
-    private static boolean continuePlanting = true;
     static Random random = new Random();
 
 
@@ -30,19 +29,15 @@ public class Game {
             //Desplegar menu de plantas
             System.out.println("¿Desea plantar alguna aliada? (S/N)");
             char answer = Character.toLowerCase(scanner.next().charAt(0));
-            while (continuePlanting){
-                plant(answer);
-                System.out.println("¿Desea intentar plantar otra cosa? (S/N)");
-                char answer2 = Character.toLowerCase(scanner.next().charAt(0));  // Preguntar si quieren seguir intentando
-                if (answer2 != 's') {
-                    System.out.println("Pasando a la siguiente ronda");
-                    continuePlanting = false;
-                    break;
-                }
+            if (answer == 's'){
+                plant();
             }
 
+            // spawnear zombies
+            spawnZombies();
 
-
+            //realizar ataques
+            attackRound();
 
             // Aquí continuar con la ronda de ataque y movimiento
             currentRound++;
@@ -63,13 +58,15 @@ public class Game {
         }
     }
 
-    public static void plant(char answer) {
-        if (answer == 's') {
+    public static void plant() {
+        boolean continuePlanting = true;
+        while (continuePlanting) {
             System.out.println("Indique que planta quiere ubicar");
             int plantNum = choosePlant();
 
             // Determinar el tipo de planta basado en el costo
             Plants plantType = null;
+
             switch (plantNum) {
                 case 1:
                     if (totalSuns >= 50) {
@@ -171,8 +168,14 @@ public class Game {
                     }
                 } while (changePos);
             }
-        } else {
-            System.out.println("Pasando a la siguiente ronda");
+
+            scanner.nextLine();
+
+            System.out.println("¿Desea plantar nuevamente? (S/N)");
+            if (Character.toLowerCase(scanner.nextLine().charAt(0)) != 's') {
+                System.out.println("Pasando a la siguiente ronda");
+                continuePlanting = false;
+            }
         }
     }
 
@@ -186,10 +189,39 @@ public class Game {
         return false;
     }
 
-    public void attackRound(){
+    public static void spawnZombies(){
+        Zombie zombieType = null;
+        for (int i = 0; i <= random.nextInt(4); i++) {
+            switch (random.nextInt(6)) {
+                case 0:
+                    zombieType = new Zombie(random.nextInt(5), gameBoard, zombiesInBoard);
+                case 1:
+                    zombieType = new ZombieAbanderado(random.nextInt(5), gameBoard, zombiesInBoard);
+                case 2:
+                    zombieType = new ZombieCaracono(random.nextInt(5), gameBoard, zombiesInBoard);
+                case 3:
+                    zombieType = new ZombieCaracubo(random.nextInt(5), gameBoard, zombiesInBoard);
+                case 4:
+                    zombieType = new ZombieLector(random.nextInt(5), gameBoard, zombiesInBoard);
+                case 5:
+                    zombieType = new ZombieSaltador(random.nextInt(5), gameBoard, zombiesInBoard);
+            }
+            gameBoard.board[zombieType.getRow()][zombieType.getColumn()].add(zombieType);
+        }
+    }
+
+    public static void attackRound(){
+        for (Entity entity : aggrPlants) {
+            if (entity instanceof LanzaGisante) {
+                ((LanzaGisante) entity).attack(gameBoard); // Llama al método attack
+            }
+        }
     }
 
     public void moveRound(){
+    }
+
+    public void shop(){
     }
 
     public static int choosePlant(){
