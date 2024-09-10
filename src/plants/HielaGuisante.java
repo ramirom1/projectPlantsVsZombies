@@ -16,15 +16,6 @@ public class HielaGuisante extends LanzaGisante implements Attack {
         this.setName("Hiela Guisante");
     }
 
-    //attack
-
-
-    @Override
-    public void attack(Board board) {
-        //atacar al zombie
-        //relentizarlo
-        System.out.println("Hiela Guisante Ataca");
-    }
 
     //get de si relentiza
     public boolean getSlowDown(){

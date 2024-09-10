@@ -1,8 +1,5 @@
-import plants.Birasol;
-import plants.Girasol;
+import plants.*;
 import game.Board;
-import plants.LanzaGisante;
-import plants.Plants;
 import zombie.Zombie;
 import Entity.Entity;
 
@@ -16,36 +13,44 @@ public class Main {
         LinkedList<Entity> nonAggrPlants = new LinkedList<Entity>();
         LinkedList<Entity> listZombie = new LinkedList<Entity>();
         Board tablero = new Board();
-        LanzaGisante gisante = new LanzaGisante(9,0,tablero,aggrPlants);
-        Zombie zom = new Zombie(0,tablero,listZombie);
+        Petacereza cereza = new Petacereza(8,1,tablero,aggrPlants);
+        Zombie zom1 = new Zombie(0,tablero,listZombie);
+        Zombie zom2 = new Zombie(0,tablero,listZombie);
+        Zombie zom3 = new Zombie(0,tablero,listZombie);
 
-        aggrPlants.add(gisante);
-        listZombie.add(zom);
+        aggrPlants.add(cereza);
+        listZombie.add(zom1);
 
-        System.out.println(gisante.getLife() + "vida PLANTA antes del ataque");
-        System.out.println(zom.getLife() + "vida ZOMBIE antes del ataque");
+        System.out.println(cereza.getLife() + "vida PLANTA antes del ataque");
+        System.out.println(zom1.getLife() + "vida ZOMBIE antes del ataque");
 
         //System.out.println(zom.getColumn()+","+zom.getRow());
         //System.out.println(gisante.getColumn()+","+gisante.getRow());
-        tablero.board[gisante.getRow()][gisante.getColumn()].add(gisante); // hay un problema con los x e y
-        tablero.board[zom.getRow()][zom.getColumn()].add(zom);
+        tablero.board[cereza.getRow()][cereza.getColumn()].add(cereza); // hay un problema con los x e y
+        tablero.board[zom1.getRow()][zom1.getColumn()].add(zom1);
+        tablero.board[zom2.getRow()][zom2.getColumn()].add(zom2);
+        tablero.board[zom3.getRow()][zom3.getColumn()].add(zom3);
 
         System.out.println(aggrPlants);
         System.out.println(listZombie);
 
-        System.out.println(zom.getLife());
+        System.out.println(zom1.getLife());
         tablero.printBoard();
-        gisante.attack(tablero);
+        cereza.attack(tablero);
+        //cereza.attack(tablero);
 
-        System.out.println(zom.getLife());
+        System.out.println(zom1.getLife());
 
 
         //zom.attack(tablero);
-        System.out.println(gisante.getLife());
+        System.out.println(cereza.getLife());
         tablero.printBoard();
         System.out.println(aggrPlants);
         System.out.println(listZombie);
+        System.out.println(zom2.getLife() + "vida ZOMBIE DESPUES del ataque");
+        System.out.println(tablero.getEntitiesAt(0,9));
 
         }
+
 
     }

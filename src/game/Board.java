@@ -1,10 +1,8 @@
 package game;//es na matriz que tiene almacenada las plantas, zombies y proyectiles
 import Entity.Entity;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-import java.util.LinkedList;
+import java.util.*;
+
 import zombie.Zombie;
 import plants.Plants;
 
@@ -37,13 +35,13 @@ public class Board {
 
     public List<Entity> getEntitiesAt(int x, int y) {
         if (x >= 0 && x < FILAS && y >= 0 && y < COL) {
-            return board[x][y];
+            List<Entity> listSorted = board[x][y];
+            return getOrderedEntities(listSorted);
         } else {
             throw new IndexOutOfBoundsException("Posición fuera de los límites del tablero.");
         }
 
     }
-
     public void printBoard() {
         for (int i = 0; i < FILAS; i++) {
             for (int j = 0; j < COL; j++) {
@@ -68,7 +66,42 @@ public class Board {
         }
     }
 
-    //hacer los getters y setters
+    // Método para obtener una lista ordenada de entidades
+    public static List<Entity> getOrderedEntities(List<Entity> entities) {
+        // Crear una copia de la lista para no modificar la original
+        List<Entity> sortedEntities = new ArrayList<>(entities);
 
+        // Ordenar la lista con un comparador
+        Collections.sort(sortedEntities, (e1, e2) -> {
+            if (e1 instanceof Plants && e2 instanceof Zombie) {
+                return -1; // e1 (Plant) debe ir antes de e2 (Zombie)
+            } else if (e1 instanceof Zombie && e2 instanceof Plants) {
+                return 1;  // e1 (Zombie) debe ir después de e2 (Plant)
+            } else {
+                return 0;  // Mantener el orden original para entidades del mismo tipo
+            }
+        });
+
+        // Retornar la lista ordenada
+        return sortedEntities;
+    }
+
+
+    //hacer los getters y setters
+    public int getRows(){
+        return this.FILAS;
+    }
+    public int getCols(){
+        return this.COL;
+    }
+    public boolean getExistsRepetidora() {
+        return this.existsRepetidora;
+    }
+    public boolean getExistsGirasol() {
+        return this.existsGirasol;
+    }
+    public boolean getExistsPatatapum() {
+        return this.existsPatatapum;
+    }
 
 }
