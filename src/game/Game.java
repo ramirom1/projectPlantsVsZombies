@@ -3,7 +3,6 @@ import Entity.Entity;
 import plants.*;
 import zombie.*;
 import java.util.Random;
-
 import java.util.*;
 
 //maneja el juego (turnos, quita de vida,etc)
@@ -14,24 +13,27 @@ public class Game {
     private static LinkedList<Entity> zombiesToSpawn = new LinkedList<Entity>();
     private static Scanner scanner = new Scanner(System.in);
     private static Board gameBoard = new Board();
-    private static int currentRound = 0, totalSuns = 500;
+    private static int currentRound = 1, totalSuns = 500;
     private static boolean continueGame = true;
     static Random random = new Random();
 
 
     public static void main(String[] args) {
+        gameBoard.printBoard();
         while(continueGame){
-            if ((currentRound % 2) != 0){
-                collectSuns(nonAggrPlants);
-            }
+            if ((currentRound % 3) != 0){collectSuns(nonAggrPlants);}
+
+            //realizar movimientos
+            moveRound();
+
             System.out.println("Cantidad de Soles: " + totalSuns);
-            gameBoard.printBoard();
+
+            //Desplegar tienda del locura Dave
+            if ((currentRound % 10) == 0){shop();}
+
             //Desplegar menu de plantas
             System.out.println("¿Desea plantar alguna aliada? (S/N)");
-            char answer = Character.toLowerCase(scanner.next().charAt(0));
-            if (answer == 's'){
-                plant();
-            }
+            if (Character.toLowerCase(scanner.next().charAt(0)) == 's'){plant();}
 
             // spawnear zombies
             spawnZombies();
@@ -39,9 +41,15 @@ public class Game {
             //realizar ataques
             attackRound();
 
-            // Aquí continuar con la ronda de ataque y movimiento
+            // mover zombies
+            moveRound();
+
+            //printBoard
+            gameBoard.printBoard();
+
             currentRound++;
         }
+        System.out.println("Juego finalizado");
     }
 
     //Por cada girasol o birasol se suman 25 o 50 soles
@@ -67,12 +75,14 @@ public class Game {
             // Determinar el tipo de planta basado en el costo
             Plants plantType = null;
 
+            //Modificar ints de board
             switch (plantNum) {
                 case 1:
                     if (totalSuns >= 50) {
                         plantType = new Girasol(1, 1, gameBoard, nonAggrPlants);
                         nonAggrPlants.add(plantType);
                         totalSuns -= 50;
+                        gameBoard.setCounterGirasol(gameBoard.getCounterGirasol()+1);
                     } else {
                         System.out.println("No tienes suficientes soles");
                     }
@@ -109,6 +119,7 @@ public class Game {
                         plantType = new Repetidora(1, 1, gameBoard, aggrPlants);
                         aggrPlants.add(plantType);
                         totalSuns -= 150;
+                        gameBoard.setCounterRepetidora(gameBoard.getCounterRepetidora()+1);
                     } else {
                         System.out.println("No tienes suficientes soles");
                     }
@@ -118,6 +129,7 @@ public class Game {
                         plantType = new Patatapum(1, 1, gameBoard, aggrPlants);
                         aggrPlants.add(plantType);
                         totalSuns -= 25;
+                        gameBoard.setCounterPatatapum(gameBoard.getCounterPatatapum()+1);
                     } else {
                         System.out.println("No tienes suficientes soles");
                     }
@@ -179,7 +191,6 @@ public class Game {
         }
     }
 
-
     public static boolean containsPlant(List<Entity> list){
         for (Entity entity : list) {
             if (entity instanceof Plants) {
@@ -192,37 +203,209 @@ public class Game {
     public static void spawnZombies(){
         Zombie zombieType = null;
         for (int i = 0; i <= random.nextInt(4); i++) {
-            switch (random.nextInt(6)) {
-                case 0:
-                    zombieType = new Zombie(random.nextInt(5), gameBoard, zombiesInBoard);
-                case 1:
-                    zombieType = new ZombieAbanderado(random.nextInt(5), gameBoard, zombiesInBoard);
-                case 2:
-                    zombieType = new ZombieCaracono(random.nextInt(5), gameBoard, zombiesInBoard);
-                case 3:
-                    zombieType = new ZombieCaracubo(random.nextInt(5), gameBoard, zombiesInBoard);
-                case 4:
-                    zombieType = new ZombieLector(random.nextInt(5), gameBoard, zombiesInBoard);
-                case 5:
-                    zombieType = new ZombieSaltador(random.nextInt(5), gameBoard, zombiesInBoard);
-            }
+            zombieType = switch (random.nextInt(6)) {
+                case 0 -> new Zombie(random.nextInt(5), gameBoard, zombiesInBoard);
+                case 1 -> new ZombieAbanderado(random.nextInt(5), gameBoard, zombiesInBoard);
+                case 2 -> new ZombieCaracono(random.nextInt(5), gameBoard, zombiesInBoard);
+                case 3 -> new ZombieCaracubo(random.nextInt(5), gameBoard, zombiesInBoard);
+                case 4 -> new ZombieLector(random.nextInt(5), gameBoard, zombiesInBoard);
+                case 5 -> new ZombieSaltador(random.nextInt(5), gameBoard, zombiesInBoard);
+                default -> zombieType;
+            };
             gameBoard.board[zombieType.getRow()][zombieType.getColumn()].add(zombieType);
+            zombiesInBoard.add(zombieType);
         }
     }
+
+    /* IDEA PARA CONGELAR ZOMBIE
+        Cuando vamos a mover a los zombies, me fijo en speed y en un contador de rondas que lleva congelado, si ese contador
+        es igual a cierto parametro la velocidad vuelve a la normal (Habria que agregar un atributo de defaultSpeed y roundsFreezed)
+        y cada vez que se lo ataca el contador vuelve a 0
+    */
 
     public static void attackRound(){
         for (Entity entity : aggrPlants) {
-            if (entity instanceof LanzaGisante) {
-                ((LanzaGisante) entity).attack(gameBoard); // Llama al método attack
+            if (entity instanceof Guisantralladora){
+                ((Guisantralladora) entity).attack(gameBoard);
+            }
+            else if (entity instanceof Repetidora){
+                ((Repetidora) entity).attack(gameBoard);
+            }
+            else if (entity instanceof Petacereza){
+                ((Petacereza) entity).attack(gameBoard);
+            }
+            else if (entity instanceof Gasoseta){
+                ((Gasoseta) entity).attack(gameBoard);
+            }
+            else if (entity instanceof Patatapum){
+                ((Patatapum) entity).attack(gameBoard);
+            }
+            else if (entity instanceof HielaGuisante){
+                ((HielaGuisante) entity).attack(gameBoard);
+            }
+            else if (entity instanceof LanzaGisante) {
+                ((LanzaGisante) entity).attack(gameBoard);
+            }
+            else if (entity instanceof Zombie){
+                ((Zombie) entity).attack(gameBoard);
+            }
+        }
+
+    }
+
+    public static void moveRound(){
+        for (Entity zomb : zombiesInBoard){
+            int speed = ((Zombie) zomb).getSpeed();
+
+            // Si llegamos al final se termina el juego
+            if (zomb.getColumn() == 0){
+                continueGame = false;
+                break;
+            //Si no, se mueven los zombies
+            } else if (zomb instanceof ZombieSaltador) {
+                Entity checkPlantExist = null;
+                if (!gameBoard.board[zomb.getRow()][zomb.getColumn() - 1].isEmpty()){
+                    checkPlantExist = gameBoard.board[zomb.getRow()][zomb.getColumn()-1].get(0);
+                }
+                if (checkPlantExist instanceof Plants && (zomb.getColumn()-2) >= 0){
+                    gameBoard.board[zomb.getRow()][zomb.getColumn()].remove(zomb);
+                    gameBoard.board[zomb.getRow()][zomb.getColumn()-2].add(zomb);
+                    zomb.setColumn(zomb.getColumn()-2);
+                } else {
+                    moveZombie(zomb);
+                }
+            }  else {
+                //Verificamos si es velocidad lenta y se mueve turno por medio
+                if (speed == 0){
+                    if (currentRound % 4 == 0){
+                        moveZombie(zomb);
+                    }
+                }
+                //Si es velocidad rapida se mueve todas las rondas
+                else if (speed == 2){
+                    moveZombie(zomb);
+                }
+                //Si no es velocidad normal
+                else{
+                    if (currentRound % 2 == 0){
+                        moveZombie(zomb);
+                    }
+                }
             }
         }
     }
 
-    public void moveRound(){
+    public static void moveZombie(Entity zomb){
+        Entity firstEnt = gameBoard.board[zomb.getRow()][zomb.getColumn()].get(0);
+        if (firstEnt instanceof Zombie) {
+            gameBoard.board[zomb.getRow()][zomb.getColumn()].remove(zomb);
+            gameBoard.board[zomb.getRow()][zomb.getColumn()-1].add(zomb);
+            zomb.setColumn(zomb.getColumn()-1);
+        }
     }
 
-    public void shop(){
+    public static void shop(){
+        System.out.println("EYEYEY AQUÍ CRAZY DAVE,¿No quieres mejorar alguna aliada? (S/N)");
+        if (Character.toLowerCase(scanner.next().charAt(0)) == 's') {
+            System.out.println("Planta               Coste");
+            System.out.println("1- Birasol            150");
+            System.out.println("2- Guisantralladora   250");
+            System.out.println("3- Gasoseta           150");
+
+            int choice = scanner.nextInt();
+            while (choice < 1 || choice > 3) {
+                System.out.println("Opción no válida, elige nuevamente");
+                choice = scanner.nextInt();
+            }
+
+            String basePlant = null;
+            Plants upgradedPlant = null;
+            switch (choice) {
+                case 1: // Birasol
+                    if (totalSuns >= 150) {
+                        if (gameBoard.getCounterGirasol() > 0){
+                            upgradedPlant = new Birasol(1,1, gameBoard, nonAggrPlants);
+                            basePlant = "Girasol";
+                            totalSuns -= 150;
+                        } else {
+                            System.out.println("No hay ningun girasol en el tablero");
+                            return;
+                        }
+                    } else {
+                        System.out.println("No tienes suficientes soles");
+                    }
+                    break;
+                case 2: // Guisantralladora
+                    if (totalSuns >= 250) {
+                        if (gameBoard.getCounterRepetidora() > 0){
+                            upgradedPlant = new Guisantralladora(1,1, gameBoard, aggrPlants);
+                            basePlant = "Guisantralladora";
+                            totalSuns -= 250;
+                        } else {
+                            System.out.println("No hay ninguna repetidora en el tablero");
+                            return;
+                        }
+                    } else {
+                        System.out.println("No tienes suficientes soles");
+                    }
+                    break;
+                case 3: // Gasoseta
+                    if (totalSuns >= 150) {
+                        if (gameBoard.getCounterPatatapum() > 0){
+                            upgradedPlant = new Gasoseta(1, 1, gameBoard, aggrPlants);
+                            basePlant = "Gasoseta";
+                            totalSuns -= 150;
+                        } else {
+                            System.out.println("No hay ninguna patatapum en el tablero");
+                            return;
+                        }
+                    } else {
+                        System.out.println("No tienes suficientes soles");
+                    }
+                    break;
+                default:
+                    System.out.println("Opción inválida.");
+                    break;
+            }
+
+
+            if (upgradedPlant != null) {
+                // Pedir la fila y columna
+                boolean changePos = false;
+
+                do {
+                    System.out.println("Indique la fila donde quiere implementar la mejora: ");
+                    int rowToPlant = scanner.nextInt();
+                    while (rowToPlant < 1 || rowToPlant > 5) {
+                        System.out.println("Fila fuera de rango, ingrese nuevamente");
+                        rowToPlant = scanner.nextInt();
+                    }
+
+                    System.out.println("Indique la columna donde quiere implementar la mejora: ");
+                    int columnToPlant = scanner.nextInt();
+                    while (columnToPlant < 1 || columnToPlant > 10) {
+                        System.out.println("Columna fuera de rango, ingrese nuevamente");
+                        columnToPlant = scanner.nextInt();
+                    }
+
+                    if (Objects.equals(gameBoard.board[rowToPlant - 1][columnToPlant - 1].get(0).getName(), basePlant)) {
+                        gameBoard.board[rowToPlant - 1][columnToPlant - 1].removeIf(basePlantDel -> basePlantDel instanceof Plants);
+                        //asignarle la fila y columna a la planta
+                        upgradedPlant.setRow(rowToPlant - 1);
+                        upgradedPlant.setColumn(columnToPlant - 1);
+                        // Colocar la planta en el tablero
+                        gameBoard.board[rowToPlant - 1][columnToPlant - 1].add(upgradedPlant);
+                        changePos = false;
+                    } else {
+                        System.out.println("La plante base no coincide con su mejora. Escoja una posición válida");
+                        changePos = true;
+                    }
+                } while (changePos);
+            }
+            scanner.nextLine();
+        }
     }
+
 
     public static int choosePlant(){
         System.out.println("Planta              Coste");
