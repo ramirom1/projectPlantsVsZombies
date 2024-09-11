@@ -200,18 +200,29 @@ public class Game {
         return false;
     }
 
-    public static void spawnZombies(){
+    public static void spawnZombies() {
         Zombie zombieType = null;
         for (int i = 0; i <= random.nextInt(4); i++) {
-            zombieType = switch (random.nextInt(6)) {
-                case 0 -> new Zombie(random.nextInt(5), gameBoard, zombiesInBoard);
-                case 1 -> new ZombieAbanderado(random.nextInt(5), gameBoard, zombiesInBoard);
-                case 2 -> new ZombieCaracono(random.nextInt(5), gameBoard, zombiesInBoard);
-                case 3 -> new ZombieCaracubo(random.nextInt(5), gameBoard, zombiesInBoard);
-                case 4 -> new ZombieLector(random.nextInt(5), gameBoard, zombiesInBoard);
-                case 5 -> new ZombieSaltador(random.nextInt(5), gameBoard, zombiesInBoard);
-                default -> zombieType;
-            };
+            switch (random.nextInt(6)) {
+                case 0:
+                    zombieType = new Zombie(random.nextInt(5), gameBoard, zombiesInBoard);
+                    break;
+                case 1:
+                    zombieType = new ZombieAbanderado(random.nextInt(5), gameBoard, zombiesInBoard);
+                    break;
+                case 2:
+                    zombieType = new ZombieCaracono(random.nextInt(5), gameBoard, zombiesInBoard);
+                    break;
+                case 3:
+                    zombieType = new ZombieCaracubo(random.nextInt(5), gameBoard, zombiesInBoard);
+                    break;
+                case 4:
+                    zombieType = new ZombieLector(random.nextInt(5), gameBoard, zombiesInBoard);
+                    break;
+                case 5:
+                    zombieType = new ZombieSaltador(random.nextInt(5), gameBoard, zombiesInBoard);
+                    break;
+            }
             gameBoard.board[zombieType.getRow()][zombieType.getColumn()].add(zombieType);
             zombiesInBoard.add(zombieType);
         }
