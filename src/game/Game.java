@@ -28,6 +28,8 @@ public class Game {
 
             System.out.println("Cantidad de Soles: " + totalSuns);
 
+            System.out.println("Ronda: " + currentRound);
+
             //Desplegar tienda del locura Dave
             if ((currentRound % 10) == 0){shop();}
 
@@ -41,11 +43,11 @@ public class Game {
             //realizar ataques
             attackRound();
 
-            // mover zombies
-            moveRound();
-
             //printBoard
             gameBoard.printBoard();
+
+            // mover zombies
+            moveRound();
 
             currentRound++;
         }
@@ -202,24 +204,29 @@ public class Game {
 
     public static void spawnZombies() {
         Zombie zombieType = null;
-        for (int i = 0; i <= random.nextInt(4); i++) {
-            switch (random.nextInt(6)) {
+        int upperBound = random.nextInt(4);
+        if ((currentRound % 4) == 0){
+            System.out.println("Se acerca una oleada");
+            ZombieAbanderado zombAband = new ZombieAbanderado(random.nextInt(5),gameBoard, zombiesInBoard);
+            gameBoard.board[zombAband.getRow()][zombAband.getColumn()].add(zombAband);
+            zombiesInBoard.add(zombAband);
+            upperBound = random.nextInt(4) + 5;
+        }
+        for (int i = 0; i <= upperBound; i++) {
+            switch (random.nextInt(5)) {
                 case 0:
                     zombieType = new Zombie(random.nextInt(5), gameBoard, zombiesInBoard);
                     break;
                 case 1:
-                    zombieType = new ZombieAbanderado(random.nextInt(5), gameBoard, zombiesInBoard);
-                    break;
-                case 2:
                     zombieType = new ZombieCaracono(random.nextInt(5), gameBoard, zombiesInBoard);
                     break;
-                case 3:
+                case 2:
                     zombieType = new ZombieCaracubo(random.nextInt(5), gameBoard, zombiesInBoard);
                     break;
-                case 4:
+                case 3:
                     zombieType = new ZombieLector(random.nextInt(5), gameBoard, zombiesInBoard);
                     break;
-                case 5:
+                case 4:
                     zombieType = new ZombieSaltador(random.nextInt(5), gameBoard, zombiesInBoard);
                     break;
             }
@@ -274,31 +281,34 @@ public class Game {
                 break;
             //Si no, se mueven los zombies
             } else if (zomb instanceof ZombieSaltador) {
-                Entity checkPlantExist = null;
-                if (!gameBoard.board[zomb.getRow()][zomb.getColumn() - 1].isEmpty()){
-                    checkPlantExist = gameBoard.board[zomb.getRow()][zomb.getColumn()-1].get(0);
-                }
-                if (checkPlantExist instanceof Plants && (zomb.getColumn()-2) >= 0){
-                    gameBoard.board[zomb.getRow()][zomb.getColumn()].remove(zomb);
-                    gameBoard.board[zomb.getRow()][zomb.getColumn()-2].add(zomb);
-                    zomb.setColumn(zomb.getColumn()-2);
-                } else {
-                    moveZombie(zomb);
+                if (currentRound % 2 == 0) {
+                    Entity checkPlantExist = null;
+                    if (!gameBoard.board[zomb.getRow()][zomb.getColumn() - 1].isEmpty()) {
+                        checkPlantExist = gameBoard.board[zomb.getRow()][zomb.getColumn() - 1].get(0);
+                    }
+                    if (checkPlantExist instanceof Plants && (zomb.getColumn() - 2) >= 0 && speed == 2) {
+                        gameBoard.board[zomb.getRow()][zomb.getColumn()].remove(zomb);
+                        gameBoard.board[zomb.getRow()][zomb.getColumn() - 2].add(zomb);
+                        zomb.setColumn(zomb.getColumn() - 2);
+                        ((ZombieSaltador) zomb).setSpeed(1);
+                    } else {
+                        moveZombie(zomb);
+                    }
                 }
             }  else {
                 //Verificamos si es velocidad lenta y se mueve turno por medio
                 if (speed == 0){
-                    if (currentRound % 4 == 0){
+                    if (currentRound % 6 == 0){
                         moveZombie(zomb);
                     }
                 }
                 //Si es velocidad rapida se mueve todas las rondas
-                else if (speed == 2){
+                else if (speed == 2 && currentRound % 2 == 0){
                     moveZombie(zomb);
                 }
                 //Si no es velocidad normal
                 else{
-                    if (currentRound % 2 == 0){
+                    if (currentRound % 4 == 0){
                         moveZombie(zomb);
                     }
                 }
