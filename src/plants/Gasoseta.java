@@ -16,7 +16,7 @@ public class Gasoseta extends Patatapum implements Attack {
         this.setName("Gasoseta");
         this.setDemage(150);
         this.setLoadTime(0);
-
+        this.setSunCost(150);
     }
 
     @Override
