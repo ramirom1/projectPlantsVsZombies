@@ -47,6 +47,7 @@ public abstract class Plants extends Entity {
         // Llama al tablero para eliminar la planta de su posición
         board.removeEntity(this, getRow(), getColumn());
         this.removeEntityList(this);
+
     }
 
     //gets

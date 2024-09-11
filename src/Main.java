@@ -13,7 +13,7 @@ public class Main {
         LinkedList<Entity> nonAggrPlants = new LinkedList<Entity>();
         LinkedList<Entity> listZombie = new LinkedList<Entity>();
         Board tablero = new Board();
-        Petacereza cereza = new Petacereza(8,1,tablero,aggrPlants);
+        HielaGuisante cereza = new HielaGuisante(7,0,tablero,aggrPlants);
         Zombie zom1 = new Zombie(0,tablero,listZombie);
         Zombie zom2 = new Zombie(0,tablero,listZombie);
         Zombie zom3 = new Zombie(0,tablero,listZombie);
@@ -22,7 +22,7 @@ public class Main {
         listZombie.add(zom1);
 
         System.out.println(cereza.getLife() + "vida PLANTA antes del ataque");
-        System.out.println(zom1.getLife() + "vida ZOMBIE antes del ataque");
+        System.out.println(cereza.getSlowDown() + " EL ATAQUE RELENTIZA");
 
         //System.out.println(zom.getColumn()+","+zom.getRow());
         //System.out.println(gisante.getColumn()+","+gisante.getRow());
@@ -36,10 +36,14 @@ public class Main {
 
         System.out.println(zom1.getLife());
         tablero.printBoard();
+
+        System.out.println(zom1.getLife() + "vida ZOMBIE 1 antes del ataque");
+        System.out.println(zom2.getLife() + "vida ZOMBIE 2 antes del ataque");
+        System.out.println(zom3.getLife() + "vida ZOMBIE 3 antes del ataque");
+
         cereza.attack(tablero);
         //cereza.attack(tablero);
 
-        System.out.println(zom1.getLife());
 
 
         //zom.attack(tablero);
@@ -47,7 +51,9 @@ public class Main {
         tablero.printBoard();
         System.out.println(aggrPlants);
         System.out.println(listZombie);
-        System.out.println(zom2.getLife() + "vida ZOMBIE DESPUES del ataque");
+        System.out.println(zom1.getLife() + "vida ZOMBIE 1 DESPUES del ataque");
+        System.out.println(zom2.getLife() + "vida ZOMBIE 2 DESPUES del ataque");
+        System.out.println(zom3.getLife() + "vida ZOMBIE 3 DESPUES del ataque");
         System.out.println(tablero.getEntitiesAt(0,9));
 
         }

@@ -104,4 +104,9 @@ public class Board {
         return this.existsPatatapum;
     }
 
+    public void setExistsRepetidora(boolean existsRepetidora) {}
+    public void setExistsGirasol(boolean existsGirasol) {}
+    public void setExistsPatatapum(boolean existsPatatapum) {}
+
+
 }

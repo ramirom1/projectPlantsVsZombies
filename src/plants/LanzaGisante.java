@@ -2,6 +2,7 @@ package plants;
 
 import Entity.Attack;
 import Entity.Entity;
+import com.sun.org.apache.xpath.internal.objects.XBoolean;
 import zombie.Zombie;
 import game.Board;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 public class LanzaGisante extends Plants implements Attack {
     private int demage;
+    private boolean slowDown = false;
 
     public LanzaGisante(int column, int row, Board board, LinkedList<Entity> listClassification) {
         super("Lanza Guisante",500,column,row,100,1,1,board,listClassification);
@@ -31,14 +33,15 @@ public class LanzaGisante extends Plants implements Attack {
             for (Entity entity : entities) {
                 if (entity instanceof Zombie) {
                     ((Zombie) entity).takeDamage(this.getDemage()); // La planta ataca al zombie
+                    if (slowDown){
+                        ((Zombie) entity).setSpeed(0);
+                    }
                     System.out.println("Lanza Guisante atacó al zombie en (" + (entity.getRow()+1) + ", " + (entity.getColumn()+1) + "). - Life: " + entity.getLife());
 
                     return; // Salimos del método tras atacar al primer zombie encontrado
                 }
             }
         }
-
-        // Si no hay zombies en la fila
     }
 
 
@@ -50,6 +53,10 @@ public class LanzaGisante extends Plants implements Attack {
     //set daño
     public void setDemage(int demage) {
         this.demage = demage;
+    }
+
+    public boolean isSlowDown() {
+        return slowDown;
     }
 
 

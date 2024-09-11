@@ -48,7 +48,9 @@ public class Petacereza extends Plants implements Attack {
         }
         // Eliminar la Petacereza después de atacar
         board.removeEntity(this, row, column);
-    }    //board.removeEntity(this, row, column);
+        //la eliminamos de la lista de plantas agresivas
+        removeEntityList(this);
+    }
 
 
     public int getRadio() {
