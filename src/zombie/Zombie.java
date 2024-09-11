@@ -53,6 +53,11 @@ public class Zombie extends Entity implements Attack {
              // El zombie muere si su salud es menor o igual a 0
             die();
         }
+        if (this instanceof ZombieLector ) {
+            if (getLife() <= 400){
+                this.setSpeed(2);
+            }
+        }
     }
 
     private void die() {

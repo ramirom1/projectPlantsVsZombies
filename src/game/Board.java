@@ -3,9 +3,8 @@ import Entity.Entity;
 
 import java.util.*;
 
-import plants.Birasol;
+import plants.*;
 import zombie.*;
-import plants.Plants;
 
 public class Board {
     private final int COL = 10, FILAS = 5;
@@ -53,24 +52,34 @@ public class Board {
                     System.out.print("["); // Inicio de la celda con entidades
                     for (Entity entity : entities) {
                         if (entity instanceof Birasol){
-                            System.out.print("Bi");
-                        } else if (entity instanceof Plants) {
-                            System.out.print("P"); // Representación para las plantas
+                            System.out.print("🌻🌻");
+                        } else if (entity instanceof Girasol) {
+                            System.out.print("\uD83C\uDF3B"); // Representación para las plantas
+                        } else if (entity instanceof Guisantralladora) {
+                            System.out.print("🌵"); //
+                        } else if (entity instanceof Repetidora) {
+                            System.out.print("\uD83C\uDF3F"); //
+                        } else if (entity instanceof HielaGuisante) {
+                            System.out.print("❄"); //
+                        } else if (entity instanceof LanzaGisante) {
+                            System.out.print("\uD83C\uDF31");
+                        } else if (entity instanceof Nuez) {
+                            System.out.print("\uD83E\uDD65");
+                        } else if (entity instanceof Petacereza) {
+                            System.out.print("\uD83C\uDF52");
                         } else if (entity instanceof ZombieSaltador) {
-                            System.out.print("J");
+                            System.out.print("\uD83E\uDD38\u200D♂\uFE0F");
                         } else if (entity instanceof ZombieLector) {
-                            System.out.print("L");
+                            System.out.print("\uD83D\uDCF0");
                         } else if (entity instanceof ZombieCaracono) {
-                            System.out.print("Cc");
+                            System.out.print("\uD83D\uDD3A");
                         } else if (entity instanceof ZombieCaracubo) {
-                            System.out.print("Cq");
+                            System.out.print("\uD83E\uDEA3");
                         } else if (entity instanceof ZombieAbanderado) {
-                            System.out.print("A");
-                        }
-                        else if (entity instanceof Zombie) {
-                            System.out.print("Z "); // Representación para los zombies
-                        }
-                        else {
+                            System.out.print("\uD83D\uDEA9");
+                        } else if (entity instanceof Zombie) {
+                            System.out.print("\uD83E\uDDDF "); // Representación para los zombies
+                        } else {
                             System.out.print("? "); // Representación para entidades desconocidas
                         }
                     }

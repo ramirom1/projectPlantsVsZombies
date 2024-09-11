@@ -7,10 +7,12 @@ import java.util.LinkedList;
 
 public class ZombieLector extends Zombie{
 
+
     public ZombieLector(int row, Board board, LinkedList<Entity> listClassification) {
         super(row,board,listClassification);
         this.setName("Zombie Lector");
         this.setLife(700);
+        this.setSpeed(1);
     }
 
     //Queda ver como hacemos la verificación de la vida
@@ -19,4 +21,5 @@ public class ZombieLector extends Zombie{
             this.setSpeed(2);
         }
     }
+
 }
