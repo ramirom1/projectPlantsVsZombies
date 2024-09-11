@@ -3,18 +3,19 @@ import Entity.Entity;
 
 import java.util.*;
 
-import zombie.Zombie;
+import plants.Birasol;
+import zombie.*;
 import plants.Plants;
 
 public class Board {
     private final int COL = 10, FILAS = 5;
-    private boolean existsRepetidora, existsGirasol, existsPatatapum;
+    private int counterRepetidora, counterGirasol, counterPatatapum;
     public List<Entity>[][] board;
 
     public Board(){
-        this.existsRepetidora = false;
-        this.existsGirasol = false;
-        this.existsPatatapum = false;
+        this.counterRepetidora = 0;
+        this.counterGirasol = 0;
+        this.counterPatatapum = 0;
         board = new List[5][10];
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 10; j++){
@@ -51,11 +52,25 @@ public class Board {
                 } else {
                     System.out.print("["); // Inicio de la celda con entidades
                     for (Entity entity : entities) {
-                        if (entity instanceof Plants) {
-                            System.out.print("P "); // Representación para las plantas
-                        } else if (entity instanceof Zombie) {
+                        if (entity instanceof Birasol){
+                            System.out.print("Bi");
+                        } else if (entity instanceof Plants) {
+                            System.out.print("P"); // Representación para las plantas
+                        } else if (entity instanceof ZombieSaltador) {
+                            System.out.print("J");
+                        } else if (entity instanceof ZombieLector) {
+                            System.out.print("L");
+                        } else if (entity instanceof ZombieCaracono) {
+                            System.out.print("Cc");
+                        } else if (entity instanceof ZombieCaracubo) {
+                            System.out.print("Cq");
+                        } else if (entity instanceof ZombieAbanderado) {
+                            System.out.print("A");
+                        }
+                        else if (entity instanceof Zombie) {
                             System.out.print("Z "); // Representación para los zombies
-                        } else {
+                        }
+                        else {
                             System.out.print("? "); // Representación para entidades desconocidas
                         }
                     }
@@ -94,19 +109,25 @@ public class Board {
     public int getCols(){
         return this.COL;
     }
-    public boolean getExistsRepetidora() {
-        return this.existsRepetidora;
+    public int getCounterRepetidora() {
+        return this.counterRepetidora;
     }
-    public boolean getExistsGirasol() {
-        return this.existsGirasol;
+    public int getCounterGirasol() {
+        return this.counterGirasol;
     }
-    public boolean getExistsPatatapum() {
-        return this.existsPatatapum;
+    public int getCounterPatatapum() {
+        return this.counterPatatapum;
     }
 
-    public void setExistsRepetidora(boolean existsRepetidora) {}
-    public void setExistsGirasol(boolean existsGirasol) {}
-    public void setExistsPatatapum(boolean existsPatatapum) {}
+    public void setCounterRepetidora(int existsRepetidora) {
+        this.counterRepetidora = existsRepetidora;
+    }
+    public void setCounterGirasol(int existsGirasol) {
+        this.counterGirasol = existsGirasol;
+    }
+    public void setCounterPatatapum(int existsPatatapum) {
+        this.counterPatatapum = existsPatatapum;
+    }
 
 
 }
