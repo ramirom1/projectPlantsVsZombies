@@ -45,6 +45,9 @@ public class Board {
 
     public void printBoard() {
         for (int i = 0; i < FILAS; i++) {
+            // Imprimir número de fila antes de cada fila
+            System.out.print("Fila" + (i + 1) + " "); // Ajusta para tener al menos 6 caracteres de ancho
+
             for (int j = 0; j < COL; j++) {
                 List<Entity> entities = board[i][j];
                 String cellContent = "";
@@ -66,7 +69,11 @@ public class Board {
                             contentBuilder.append("H ");
                         } else if (entity instanceof LanzaGisante) {
                             contentBuilder.append("La ");
-                        } else if (entity instanceof Nuez) {
+                        } else if (entity instanceof Patatapum) {
+                            contentBuilder.append("Pp ");
+                        }
+                        // Zombies
+                        else if (entity instanceof Nuez) {
                             contentBuilder.append("N ");
                         } else if (entity instanceof Petacereza) {
                             contentBuilder.append("Cz ");
@@ -101,7 +108,15 @@ public class Board {
             }
             System.out.println(); // Nueva línea después de cada fila
         }
+
+        // Imprimir números de columna después de las filas
+        System.out.print("     "); // Espacio inicial para alinear con los números de fila
+        for (int j = 0; j < COL; j++) {
+            System.out.print("   Col" + (j + 1) + " "); // Ajusta para tener al menos 6 caracteres de ancho
+        }
+        System.out.println(); // Salto de línea después de los números de columna
     }
+
 
     // Método para obtener una lista ordenada de entidades
     public static List<Entity> getOrderedEntities(List<Entity> entities) {
