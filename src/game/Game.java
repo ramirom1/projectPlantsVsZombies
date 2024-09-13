@@ -372,7 +372,7 @@ public class Game {
                     if (totalSuns >= 250) {
                         if (gameBoard.getCounterRepetidora() > 0){
                             upgradedPlant = new Guisantralladora(1,1, gameBoard, aggrPlants);
-                            basePlant = "Guisantralladora";
+                            basePlant = "Repetidora";
                             totalSuns -= 250;
                         } else {
                             System.out.println("No hay ninguna repetidora en el tablero");
@@ -421,7 +421,14 @@ public class Game {
                         columnToPlant = scanner.nextInt();
                     }
 
-                    if (Objects.equals(gameBoard.board[rowToPlant - 1][columnToPlant - 1].get(0).getName(), basePlant)) {
+                    String targetName;
+                    if (gameBoard.board[rowToPlant - 1][columnToPlant - 1].size() == 0){
+                        targetName = null;
+                    } else{
+                        targetName = gameBoard.board[rowToPlant - 1][columnToPlant - 1].get(0).getName();
+                    }
+
+                    if (Objects.equals(targetName, basePlant)) {
                         gameBoard.board[rowToPlant - 1][columnToPlant - 1].removeIf(basePlantDel -> basePlantDel instanceof Plants);
                         //asignarle la fila y columna a la planta
                         upgradedPlant.setRow(rowToPlant - 1);
