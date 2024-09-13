@@ -47,7 +47,13 @@ public abstract class Plants extends Entity {
         // Llama al tablero para eliminar la planta de su posición
         board.removeEntity(this, getRow(), getColumn());
         this.removeEntityList(this);
-
+        if (this instanceof Patatapum){
+            board.setCounterPatatapum(board.getCounterPatatapum()-1);
+        } else if (this instanceof Girasol){
+            board.setCounterGirasol(board.getCounterGirasol()-1);
+        } else if (this instanceof Repetidora){
+            board.setCounterRepetidora(board.getCounterRepetidora()-1);
+        }
     }
 
     //gets

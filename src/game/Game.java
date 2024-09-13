@@ -13,12 +13,14 @@ public class Game {
     private static LinkedList<Entity> zombiesToSpawn = new LinkedList<Entity>();
     private static Scanner scanner = new Scanner(System.in);
     private static Board gameBoard = new Board();
-    private static int currentRound = 1, totalSuns = 500;
+    private static int currentRound = 0, totalSuns = 500;
     private static boolean continueGame = true;
     static Random random = new Random();
 
 
     public static void main(String[] args) {
+        System.out.println("Comienza el juego");
+        System.out.println("Tablero inicial");
         gameBoard.printBoard();
         while(continueGame){
             if ((currentRound % 3) != 0){collectSuns(nonAggrPlants);}
@@ -26,30 +28,40 @@ public class Game {
             //realizar movimientos
             moveRound();
 
-            System.out.println("Cantidad de Soles: " + totalSuns);
+            System.out.println("Ronda: " + (currentRound+1));
 
-            System.out.println("Ronda: " + currentRound);
-
-            //Desplegar tienda del locura Dave
-            if ((currentRound % 10) == 0){shop();}
+            //Desplegar tienda del Dave
+            if (((currentRound + 1) % 10) == 0){shop();}
 
             //Desplegar menu de plantas
-            System.out.println("¿Desea plantar alguna aliada? (S/N)");
-            if (Character.toLowerCase(scanner.next().charAt(0)) == 's'){plant();}
+            if (currentRound % 2 == 0){
+                System.out.println("¿Desea plantar alguna aliada? (S/N)");
+                if (Character.toLowerCase(scanner.next().charAt(0)) == 's'){plant();}
+            }
 
             // spawnear zombies
-            spawnZombies();
+            if (currentRound > 2){
+                if (currentRound % 2 == 1){
+                    spawnZombies();
+                }
+            }
 
             //realizar ataques
             attackRound();
 
             //printBoard
+            if (currentRound % 2 == 1 && currentRound > 2){System.out.println("Se mueven los zombies");}
             gameBoard.printBoard();
 
             // mover zombies
+
             moveRound();
 
+            System.out.println(" ");
+            System.out.println("-------------------------------------------------------------------------------------------------------------");
+            System.out.println(" ");
             currentRound++;
+            if (currentRound == 30){continueGame = false;}
         }
         System.out.println("Juego finalizado");
     }
@@ -71,6 +83,7 @@ public class Game {
     public static void plant() {
         boolean continuePlanting = true;
         while (continuePlanting) {
+            System.out.println("Cantidad de soles: " + totalSuns);
             System.out.println("Indique que planta quiere ubicar");
             int plantNum = choosePlant();
 
@@ -174,7 +187,7 @@ public class Game {
                         plantType.setRow(rowToPlant - 1);
                         plantType.setColumn(columnToPlant - 1);
                         // Colocar la planta en el tablero
-                        gameBoard.board[rowToPlant - 1][columnToPlant - 1].add(plantType);
+                        gameBoard.board[rowToPlant - 1][columnToPlant - 1].add(0,plantType);
                         changePos = false;
                     } else {
                         System.out.println("Esa posicion ya está ocupada, ingrese otra distinta");
@@ -204,42 +217,31 @@ public class Game {
 
     public static void spawnZombies() {
         Zombie zombieType = null;
-        int upperBound = random.nextInt(4);
-        if ((currentRound % 4) == 0){
+        int upperBound = random.nextInt(2)+1;
+        if (((currentRound + 4) % 4) == 0){
             System.out.println("Se acerca una oleada");
             ZombieAbanderado zombAband = new ZombieAbanderado(random.nextInt(5),gameBoard, zombiesInBoard);
             gameBoard.board[zombAband.getRow()][zombAband.getColumn()].add(zombAband);
             zombiesInBoard.add(zombAband);
-            upperBound = random.nextInt(4) + 5;
-        }
+            upperBound = random.nextInt(3) + 3;
+        }// 40 zombie, 25 cc, 15 cq, 10 jumper y lector
         for (int i = 0; i <= upperBound; i++) {
-            switch (random.nextInt(5)) {
-                case 0:
-                    zombieType = new Zombie(random.nextInt(5), gameBoard, zombiesInBoard);
-                    break;
-                case 1:
-                    zombieType = new ZombieCaracono(random.nextInt(5), gameBoard, zombiesInBoard);
-                    break;
-                case 2:
-                    zombieType = new ZombieCaracubo(random.nextInt(5), gameBoard, zombiesInBoard);
-                    break;
-                case 3:
-                    zombieType = new ZombieLector(random.nextInt(5), gameBoard, zombiesInBoard);
-                    break;
-                case 4:
-                    zombieType = new ZombieSaltador(random.nextInt(5), gameBoard, zombiesInBoard);
-                    break;
+            int randomIndex = random.nextInt(20);
+            if (randomIndex < 10){
+                zombieType = new Zombie(random.nextInt(5), gameBoard, zombiesInBoard);
+            } else if (randomIndex < 15){
+                zombieType = new ZombieCaracono(random.nextInt(5), gameBoard, zombiesInBoard);
+            } else if(randomIndex < 17){
+                zombieType = new ZombieCaracubo(random.nextInt(5), gameBoard, zombiesInBoard);
+            } else if(randomIndex < 18){
+                zombieType = new ZombieSaltador(random.nextInt(5), gameBoard, zombiesInBoard);
+            } else{
+                zombieType = new ZombieLector(random.nextInt(5), gameBoard, zombiesInBoard);
             }
             gameBoard.board[zombieType.getRow()][zombieType.getColumn()].add(zombieType);
             zombiesInBoard.add(zombieType);
         }
     }
-
-    /* IDEA PARA CONGELAR ZOMBIE
-        Cuando vamos a mover a los zombies, me fijo en speed y en un contador de rondas que lleva congelado, si ese contador
-        es igual a cierto parametro la velocidad vuelve a la normal (Habria que agregar un atributo de defaultSpeed y roundsFreezed)
-        y cada vez que se lo ataca el contador vuelve a 0
-    */
 
     public static void attackRound(){
         for (Entity entity : aggrPlants) {
@@ -256,7 +258,11 @@ public class Game {
                 ((Gasoseta) entity).attack(gameBoard);
             }
             else if (entity instanceof Patatapum){
-                ((Patatapum) entity).attack(gameBoard);
+                if (((Patatapum) entity).getRoundsSincePlanted() == 5){
+                    ((Patatapum) entity).attack(gameBoard);
+                } else {
+                    ((Patatapum) entity).setRoundsSincePlanted(((Patatapum) entity).getRoundsSincePlanted() + 1);
+                }
             }
             else if (entity instanceof HielaGuisante){
                 ((HielaGuisante) entity).attack(gameBoard);
@@ -276,12 +282,12 @@ public class Game {
             int speed = ((Zombie) zomb).getSpeed();
 
             // Si llegamos al final se termina el juego
-            if (zomb.getColumn() == 0){
+            if (zomb.getColumn() == 0 && !containsPlant(gameBoard.board[zomb.getRow()][zomb.getColumn()])){
                 continueGame = false;
                 break;
             //Si no, se mueven los zombies
             } else if (zomb instanceof ZombieSaltador) {
-                if (currentRound % 2 == 0) {
+                if (currentRound % 2 == 1) {
                     Entity checkPlantExist = null;
                     if (!gameBoard.board[zomb.getRow()][zomb.getColumn() - 1].isEmpty()) {
                         checkPlantExist = gameBoard.board[zomb.getRow()][zomb.getColumn() - 1].get(0);
@@ -298,17 +304,17 @@ public class Game {
             }  else {
                 //Verificamos si es velocidad lenta y se mueve turno por medio
                 if (speed == 0){
-                    if (currentRound % 6 == 0){
+                    if (currentRound % 6 == 1){
                         moveZombie(zomb);
                     }
                 }
                 //Si es velocidad rapida se mueve todas las rondas
-                else if (speed == 2 && currentRound % 2 == 0){
+                else if (speed == 2 && currentRound % 2 == 1){
                     moveZombie(zomb);
                 }
                 //Si no es velocidad normal
                 else{
-                    if (currentRound % 4 == 0){
+                    if (currentRound % 4 == 1){
                         moveZombie(zomb);
                     }
                 }
@@ -317,11 +323,17 @@ public class Game {
     }
 
     public static void moveZombie(Entity zomb){
-        Entity firstEnt = gameBoard.board[zomb.getRow()][zomb.getColumn()].get(0);
-        if (firstEnt instanceof Zombie) {
+        if (!containsPlant(gameBoard.board[zomb.getRow()][zomb.getColumn()])) {
             gameBoard.board[zomb.getRow()][zomb.getColumn()].remove(zomb);
             gameBoard.board[zomb.getRow()][zomb.getColumn()-1].add(zomb);
             zomb.setColumn(zomb.getColumn()-1);
+            // si cantidadDeRondas congelado es igual a 4, le cambiamos la velocidad, si no, le aumentamos el contador
+            if (((Zombie) zomb).getTotalFreezedRounds() == 4){
+                ((Zombie) zomb).setSpeed(1);
+                ((Zombie) zomb).setTotalFreezedRounds(0);
+            } else {
+                ((Zombie) zomb).setTotalFreezedRounds(((Zombie) zomb).getTotalFreezedRounds()+1);
+            }
         }
     }
 
@@ -374,7 +386,7 @@ public class Game {
                     if (totalSuns >= 150) {
                         if (gameBoard.getCounterPatatapum() > 0){
                             upgradedPlant = new Gasoseta(1, 1, gameBoard, aggrPlants);
-                            basePlant = "Gasoseta";
+                            basePlant = "Patatapum";
                             totalSuns -= 150;
                         } else {
                             System.out.println("No hay ninguna patatapum en el tablero");
@@ -415,7 +427,7 @@ public class Game {
                         upgradedPlant.setRow(rowToPlant - 1);
                         upgradedPlant.setColumn(columnToPlant - 1);
                         // Colocar la planta en el tablero
-                        gameBoard.board[rowToPlant - 1][columnToPlant - 1].add(upgradedPlant);
+                        gameBoard.board[rowToPlant - 1][columnToPlant - 1].add(0,upgradedPlant);
                         changePos = false;
                     } else {
                         System.out.println("La plante base no coincide con su mejora. Escoja una posición válida");
@@ -426,7 +438,6 @@ public class Game {
             scanner.nextLine();
         }
     }
-
 
     public static int choosePlant(){
         System.out.println("Planta              Coste");

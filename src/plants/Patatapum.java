@@ -11,6 +11,7 @@ import java.util.List;
 public class Patatapum extends Plants implements Attack {
     private int demage;
     private int loadTime;
+    private int roundsSincePlanted;
     private boolean plantInGame;
 
     //constuctor
@@ -18,6 +19,7 @@ public class Patatapum extends Plants implements Attack {
         super("Patatapum",500,column,row, 25,1,1,board,listClassification);
         this.demage = 1500;
         this.loadTime = 2;
+        this.roundsSincePlanted = 0;
     }
 
     //accion de explotar
@@ -66,5 +68,10 @@ public class Patatapum extends Plants implements Attack {
     public void setLoadTime(int loadTime) {
         this.loadTime = loadTime;
     }
-
+    public void setRoundsSincePlanted(int roundsSincePlanted) {
+        this.roundsSincePlanted = roundsSincePlanted;
+    }
+    public int getRoundsSincePlanted(){
+        return roundsSincePlanted;
+    }
 }

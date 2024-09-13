@@ -10,8 +10,7 @@ public class Girasol extends Plants {
     protected int generateSuns; //25 soles
     private int generationTime; //cada  25 segundos
     private boolean plantInPlay = false; //para ver si hay algun girasol en juego y despues poder poner el birasol
-
-    //constructor llamo a la super clase y cargo  los valores
+    // constructor llamo a la super clase y cargo  los valores
     public Girasol(int column, int row, Board board, LinkedList<Entity> listClassification) {
         super("Girasol",100, column, row, 50, 4, 4,board,listClassification);
         this.generateSuns = 25;

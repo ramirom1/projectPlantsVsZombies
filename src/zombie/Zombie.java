@@ -11,6 +11,7 @@ import java.util.List;
 public class Zombie extends Entity implements Attack {
     private int speed;
     private int demage;
+    private int totalFreezedRounds;
     private Board board;
 
     public Zombie(int row, Board board, LinkedList<Entity> listClassification) {
@@ -18,6 +19,7 @@ public class Zombie extends Entity implements Attack {
         this.speed = 1; //1 velocidad normal, 2 velocidad rápida
         this.demage = 500;
         this.board = board;
+        this.totalFreezedRounds = 0;
     }
 
     public void setSpeed(int speed) {
@@ -30,6 +32,14 @@ public class Zombie extends Entity implements Attack {
 
     public int getDemage() {
         return demage;
+    }
+
+    public void setTotalFreezedRounds(int totalFreezedRounds) {
+        this.totalFreezedRounds = totalFreezedRounds;
+    }
+
+    public int getTotalFreezedRounds() {
+        return this.totalFreezedRounds;
     }
 
     public void attack(Board board) {

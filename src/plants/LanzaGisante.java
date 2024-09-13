@@ -2,7 +2,6 @@ package plants;
 
 import Entity.Attack;
 import Entity.Entity;
-import com.sun.org.apache.xpath.internal.objects.XBoolean;
 import zombie.Zombie;
 import game.Board;
 
@@ -35,6 +34,7 @@ public class LanzaGisante extends Plants implements Attack {
                     ((Zombie) entity).takeDamage(this.getDemage()); // La planta ataca al zombie
                     if (slowDown){
                         ((Zombie) entity).setSpeed(0);
+                        ((Zombie) entity).setTotalFreezedRounds(0);
                     }
                     System.out.println("Lanza Guisante atacó al zombie en (" + (entity.getRow()+1) + ", " + (entity.getColumn()+1) + "). - Life: " + entity.getLife());
 

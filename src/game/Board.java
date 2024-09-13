@@ -42,49 +42,62 @@ public class Board {
         }
 
     }
+
     public void printBoard() {
         for (int i = 0; i < FILAS; i++) {
             for (int j = 0; j < COL; j++) {
                 List<Entity> entities = board[i][j];
+                String cellContent = "";
+
                 if (entities.isEmpty()) {
-                    System.out.print("[ ] "); // Celda vacía
+                    cellContent = "      "; // Celda vacía, 6 espacios
                 } else {
-                    System.out.print("["); // Inicio de la celda con entidades
+                    StringBuilder contentBuilder = new StringBuilder();
                     for (Entity entity : entities) {
-                        if (entity instanceof Birasol){
-                            System.out.print("🌻🌻");
+                        if (entity instanceof Birasol) {
+                            contentBuilder.append("Bi ");
                         } else if (entity instanceof Girasol) {
-                            System.out.print("\uD83C\uDF3B"); // Representación para las plantas
+                            contentBuilder.append("G ");
                         } else if (entity instanceof Guisantralladora) {
-                            System.out.print("🌵"); //
+                            contentBuilder.append("Gt ");
                         } else if (entity instanceof Repetidora) {
-                            System.out.print("\uD83C\uDF3F"); //
+                            contentBuilder.append("R ");
                         } else if (entity instanceof HielaGuisante) {
-                            System.out.print("❄"); //
+                            contentBuilder.append("H ");
                         } else if (entity instanceof LanzaGisante) {
-                            System.out.print("\uD83C\uDF31");
+                            contentBuilder.append("La ");
                         } else if (entity instanceof Nuez) {
-                            System.out.print("\uD83E\uDD65");
+                            contentBuilder.append("N ");
                         } else if (entity instanceof Petacereza) {
-                            System.out.print("\uD83C\uDF52");
+                            contentBuilder.append("Cz ");
                         } else if (entity instanceof ZombieSaltador) {
-                            System.out.print("\uD83E\uDD38\u200D♂\uFE0F");
+                            contentBuilder.append("J ");
                         } else if (entity instanceof ZombieLector) {
-                            System.out.print("\uD83D\uDCF0");
+                            contentBuilder.append("L ");
                         } else if (entity instanceof ZombieCaracono) {
-                            System.out.print("\uD83D\uDD3A");
+                            contentBuilder.append("Cc ");
                         } else if (entity instanceof ZombieCaracubo) {
-                            System.out.print("\uD83E\uDEA3");
+                            contentBuilder.append("Cq ");
                         } else if (entity instanceof ZombieAbanderado) {
-                            System.out.print("\uD83D\uDEA9");
+                            contentBuilder.append("A ");
                         } else if (entity instanceof Zombie) {
-                            System.out.print("\uD83E\uDDDF "); // Representación para los zombies
+                            contentBuilder.append("Z ");
                         } else {
-                            System.out.print("? "); // Representación para entidades desconocidas
+                            contentBuilder.append("? "); // Entidad desconocida
                         }
                     }
-                    System.out.print("] "); // Fin de la celda con entidades
+
+                    cellContent = contentBuilder.toString().trim(); // Remover espacios adicionales
+                    if (cellContent.length() > 6) {
+                        cellContent = cellContent.substring(0, 6); // Limitar a 6 caracteres si se excede
+                    } else {
+                        while (cellContent.length() < 6) {
+                            cellContent += " "; // Completar con espacios si es menor a 6 caracteres
+                        }
+                    }
                 }
+
+                System.out.print("[" + cellContent + "]"); // Celda con el contenido ajustado
             }
             System.out.println(); // Nueva línea después de cada fila
         }
