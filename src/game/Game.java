@@ -290,8 +290,10 @@ public class Game {
             } else if (zomb instanceof ZombieSaltador) {
                 if (currentRound % 2 == 1) {
                     Entity checkPlantExist = null;
-                    if (!gameBoard.board[zomb.getRow()][zomb.getColumn() - 1].isEmpty()) {
-                        checkPlantExist = gameBoard.board[zomb.getRow()][zomb.getColumn() - 1].get(0);
+                    if (zomb.getColumn()-1 >= 0){
+                        if (!gameBoard.board[zomb.getRow()][zomb.getColumn() - 1].isEmpty()) {
+                            checkPlantExist = gameBoard.board[zomb.getRow()][zomb.getColumn() - 1].get(0);
+                        }
                     }
                     if (checkPlantExist instanceof Plants && (zomb.getColumn() - 2) >= 0 && speed == 2) {
                         gameBoard.board[zomb.getRow()][zomb.getColumn()].remove(zomb);

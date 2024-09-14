@@ -51,7 +51,7 @@ public class Zombie extends Entity implements Attack {
             if (entity instanceof Plants) {
                 Plants plant = (Plants) entity;
                 plant.takeDamage(this.getDamage());
-                System.out.println("Zombie ataca a la planta en (" + row + ", " + col + ").");
+                //System.out.println("Zombie ataca a la planta en (" + row + ", " + col + ").");
                 break; // Solo atacar a una planta por vez
             }
         }
