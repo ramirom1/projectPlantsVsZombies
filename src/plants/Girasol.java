@@ -7,36 +7,19 @@ import java.util.LinkedList;
 
 //definicion  de la subclase Sunflower
 public class Girasol extends Plants {
-    protected int generateSuns; //25 soles
-    private int generationTime; //cada  25 segundos
-    private boolean plantInPlay = false; //para ver si hay algun girasol en juego y despues poder poner el birasol
+    protected int sunsProduction; //25 soles
+
     // constructor llamo a la super clase y cargo  los valores
     public Girasol(int column, int row, Board board, LinkedList<Entity> listClassification) {
-        super("Girasol",100, column, row, 50, 4, 4,board,listClassification);
-        this.generateSuns = 25;
-        this.generationTime = 25;
-        this.plantInPlay = true;
-    }
-
-    //metodo para ver si hay girasoles en juego
-    public boolean plantInPlay() {
-        return plantInPlay;
+        super("Girasol",100, column, row, 50,board,listClassification);
+        this.sunsProduction = 25;
     }
 
     //metodo para generar sol
-    public int getSun() {
-        return this.generateSuns;
+    public int generateSuns() {
+        return this.sunsProduction;
     }
-
-    //gets
-
-    //get de cuanto demora en dar un 25 soles
-    public int getGenerationTime() {
-        return this.generationTime;
-    }
-
-
-    //set
 
 }
+
 

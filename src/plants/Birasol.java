@@ -15,7 +15,7 @@ public class Birasol extends Girasol {
 
     // Sobrescribimos el método generateSuns para generar el doble de soles
     @Override
-    public int getSun() {
+    public int generateSuns() {
         return 50;
     }
 }

@@ -9,29 +9,14 @@ public abstract class Plants extends Entity {
     //atributos
 
     private int sunCost;
-    private float reloadTime; //timepo que demora en volver a cargar
-    private float missingTime; //este tiempo tiene que disminuir hasta llegar a 0 para que se pueda volver a usar
     private Board board;
 
 
     //constructor
-    public Plants(String name, int healt, int column, int row, int sunCost, float reloadTime, float missingTime, Board board, LinkedList<Entity> listClassification) {
+    public Plants(String name, int healt, int column, int row, int sunCost, Board board, LinkedList<Entity> listClassification) {
         super(healt,name,column,row,listClassification);
         this.sunCost = sunCost;
-        this.reloadTime = reloadTime;
-        this.missingTime = missingTime;
         this.board = board;
-
-
-    }
-
-    //metodo para saber si esta disponible  para usar(si ya cargo)
-    public boolean available() {
-        if (this.missingTime == 0) {
-            return true; //retorna true si el tiempo es 0, hay que ver como lo hacemos disminuir
-        } else{
-            return false;//retorna false si todavia no se termina el tiempo de espera
-        }
     }
 
     public void takeDamage(int damage) {//el demage es el del zombie
@@ -61,10 +46,6 @@ public abstract class Plants extends Entity {
     //get costo
     public int getSunCost() {
         return sunCost;
-    }
-    //get de tiempo que demora en cargar
-    public float getReloadTime() {
-        return reloadTime;
     }
 
     //set para costo

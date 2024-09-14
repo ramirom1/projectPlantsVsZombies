@@ -8,14 +8,13 @@ import zombie.Zombie;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Gasoseta extends Patatapum implements Attack {
+public class Gasoseta extends Patatapum {
     private int radio = 1;
     public Gasoseta(int column,int row,Board board, LinkedList<Entity> listClassification) {
         super(column,row,board,listClassification);
         this.radio = 1;
         this.setName("Gasoseta");
-        this.setDemage(150);
-        this.setLoadTime(0);
+        this.setDamage(150);
         this.setSunCost(150);
     }
 
@@ -37,7 +36,7 @@ public class Gasoseta extends Patatapum implements Attack {
                         Entity entity = entities.get(k);
 
                         // Verificar si la entidad es un Zombie antes de aplicar el daño
-                        ((Zombie) entity).takeDamage(this.getDemage());  // Aplicar daño al zombie
+                        ((Zombie) entity).takeDamage(this.getDamage());  // Aplicar daño al zombie
                     }
                 }
             }

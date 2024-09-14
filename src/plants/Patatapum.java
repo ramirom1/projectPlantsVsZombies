@@ -9,16 +9,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Patatapum extends Plants implements Attack {
-    private int demage;
-    private int loadTime;
+    private int damage;
     private int roundsSincePlanted;
-    private boolean plantInGame;
 
     //constuctor
     public Patatapum(int column, int row,Board board, LinkedList<Entity> listClassification) {
-        super("Patatapum",500,column,row, 25,1,1,board,listClassification);
-        this.demage = 1500;
-        this.loadTime = 2;
+        super("Patatapum",500,column,row, 25,board,listClassification);
+        this.damage = 1500;
         this.roundsSincePlanted = 0;
     }
 
@@ -43,7 +40,7 @@ public class Patatapum extends Plants implements Attack {
             for (int i = 0; i < entities.size(); i++) {
                 Entity entity = entities.get(i);
                 if (entity instanceof Zombie) {
-                    ((Zombie) entity).takeDamage(this.getDemage()); // Aplicar daño al zombie
+                    ((Zombie) entity).takeDamage(this.getDamage()); // Aplicar daño al zombie
                 }
             }
 
@@ -55,18 +52,12 @@ public class Patatapum extends Plants implements Attack {
     }
 
     //getters y setters
-    public int getDemage() {
-        return demage;
+    public int getDamage() {
+        return damage;
     }
 
-    public int getLoadTime() {
-        return loadTime;
-    }
-    public void setDemage(int demage) {
-        this.demage = demage;
-    }
-    public void setLoadTime(int loadTime) {
-        this.loadTime = loadTime;
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
     public void setRoundsSincePlanted(int roundsSincePlanted) {
         this.roundsSincePlanted = roundsSincePlanted;

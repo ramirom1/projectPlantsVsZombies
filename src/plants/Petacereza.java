@@ -5,21 +5,18 @@ import Entity.Entity;
 import game.Board;
 import zombie.Zombie;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Petacereza extends Plants implements Attack {
     private int radio;
-    private int demage;
+    private int damage;
 
     //constructor
     public Petacereza(int column,int row,Board board, LinkedList<Entity> listClassification) {
-        super("Petacereza",600,column,row,150,1,1,board,listClassification);
+        super("Petacereza",600,column,row,150,board,listClassification);
         this.radio = 1;
-        this.demage = 1500;
-
+        this.damage = 1500;
     }
 
     ///SOLO ELIMINA EL PRIMER ZOMBIE
@@ -41,7 +38,7 @@ public class Petacereza extends Plants implements Attack {
                         Entity entity = entities.get(k);
 
                         // Verificar si la entidad es un Zombie antes de aplicar el daño
-                        ((Zombie) entity).takeDamage(this.getDemage());  // Aplicar daño al zombie
+                        ((Zombie) entity).takeDamage(this.getDamage());  // Aplicar daño al zombie
                     }
                 }
             }
@@ -56,15 +53,15 @@ public class Petacereza extends Plants implements Attack {
     public int getRadio() {
         return radio;
     }
-    public int getDemage() {
-        return demage;
+    public int getDamage() {
+        return damage;
     }
 
     public void setRadio(int radio) {
         this.radio = radio;
     }
 
-    public void setDemage(int demage) {
-        this.demage = demage;
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
 }

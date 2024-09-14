@@ -6,8 +6,7 @@ import game.Board;
 
 import java.util.LinkedList;
 
-public class HielaGuisante extends LanzaGisante implements Attack {
-    private boolean slowDown = true;
+public class HielaGuisante extends LanzaGuisante {
 
     //constructor
     public HielaGuisante(int column, int row, Board board, LinkedList<Entity> listClassification) {
@@ -20,7 +19,6 @@ public class HielaGuisante extends LanzaGisante implements Attack {
     public void attack(Board board) {
        super.attack(board);
        this.slowDown = true;
-
     }
 
     //get de si relentiza

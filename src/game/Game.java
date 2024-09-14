@@ -10,12 +10,11 @@ public class Game {
     private static LinkedList<Entity> aggrPlants = new LinkedList<Entity>();
     private static LinkedList<Entity> nonAggrPlants = new LinkedList<Entity>();
     private static LinkedList<Entity> zombiesInBoard = new LinkedList<Entity>();
-    private static LinkedList<Entity> zombiesToSpawn = new LinkedList<Entity>();
     private static Scanner scanner = new Scanner(System.in);
     private static Board gameBoard = new Board();
     private static int currentRound = 0, totalSuns = 500;
     private static boolean continueGame = true;
-    static Random random = new Random();
+    private static Random random = new Random();
 
 
     public static void main(String[] args) {
@@ -68,16 +67,16 @@ public class Game {
 
     //Por cada girasol o birasol se suman 25 o 50 soles
     public static void collectSuns(LinkedList<Entity> nonAggrPlants) {
-        int i = 0;
-        while (i < nonAggrPlants.size()) {
-            if (Objects.equals(nonAggrPlants.get(i).getName(), "Girasol")){
-                totalSuns += 25;
+        int sunsCounter = 0;
+        for (Entity nonAggroPlant : nonAggrPlants){
+            if (nonAggroPlant instanceof Birasol){
+                sunsCounter += ((Birasol) nonAggroPlant).generateSuns();
+            } else if (nonAggroPlant instanceof Girasol){
+                sunsCounter += ((Girasol) nonAggroPlant).generateSuns();
             }
-            else if (Objects.equals(nonAggrPlants.get(i).getName(), "Birasol")){
-                totalSuns += 50;
-            }
-            i++;
         }
+        totalSuns += sunsCounter;
+        System.out.println("Se han recolectado " + sunsCounter + " soles");
     }
 
     public static void plant() {
@@ -104,7 +103,7 @@ public class Game {
                     break;
                 case 2:
                     if (totalSuns >= 100) {
-                        plantType = new LanzaGisante(1, 1, gameBoard, aggrPlants);
+                        plantType = new LanzaGuisante(1, 1, gameBoard, aggrPlants);
                         aggrPlants.add(plantType);
                         totalSuns -= 100;
                     } else {
@@ -218,12 +217,12 @@ public class Game {
     public static void spawnZombies() {
         Zombie zombieType = null;
         int upperBound = random.nextInt(2)+1;
-        if (((currentRound + 4) % 4) == 0){
-            System.out.println("Se acerca una oleada");
+        if (((currentRound + 4) % 4) == 1){
             ZombieAbanderado zombAband = new ZombieAbanderado(random.nextInt(5),gameBoard, zombiesInBoard);
             gameBoard.board[zombAband.getRow()][zombAband.getColumn()].add(zombAband);
             zombiesInBoard.add(zombAband);
             upperBound = random.nextInt(3) + 3;
+            zombAband.setInvasion();
         }// 40 zombie, 25 cc, 15 cq, 10 jumper y lector
         for (int i = 0; i <= upperBound; i++) {
             int randomIndex = random.nextInt(20);
@@ -244,34 +243,36 @@ public class Game {
     }
 
     public static void attackRound(){
-        for (Entity entity : aggrPlants) {
-            if (entity instanceof Guisantralladora){
-                ((Guisantralladora) entity).attack(gameBoard);
+        for (Entity plant : aggrPlants) {
+            if (plant instanceof Guisantralladora){
+                ((Guisantralladora) plant).attack(gameBoard);
             }
-            else if (entity instanceof Repetidora){
-                ((Repetidora) entity).attack(gameBoard);
+            else if (plant instanceof Repetidora){
+                ((Repetidora) plant).attack(gameBoard);
             }
-            else if (entity instanceof Petacereza){
-                ((Petacereza) entity).attack(gameBoard);
+            else if (plant instanceof Petacereza){
+                ((Petacereza) plant).attack(gameBoard);
             }
-            else if (entity instanceof Gasoseta){
-                ((Gasoseta) entity).attack(gameBoard);
+            else if (plant instanceof Gasoseta){
+                ((Gasoseta) plant).attack(gameBoard);
             }
-            else if (entity instanceof Patatapum){
-                if (((Patatapum) entity).getRoundsSincePlanted() == 5){
-                    ((Patatapum) entity).attack(gameBoard);
+            else if (plant instanceof Patatapum){
+                if (((Patatapum) plant).getRoundsSincePlanted() == 5){
+                    ((Patatapum) plant).attack(gameBoard);
                 } else {
-                    ((Patatapum) entity).setRoundsSincePlanted(((Patatapum) entity).getRoundsSincePlanted() + 1);
+                    ((Patatapum) plant).setRoundsSincePlanted(((Patatapum) plant).getRoundsSincePlanted() + 1);
                 }
             }
-            else if (entity instanceof HielaGuisante){
-                ((HielaGuisante) entity).attack(gameBoard);
+            else if (plant instanceof HielaGuisante){
+                ((HielaGuisante) plant).attack(gameBoard);
             }
-            else if (entity instanceof LanzaGisante) {
-                ((LanzaGisante) entity).attack(gameBoard);
+            else if (plant instanceof LanzaGuisante) {
+                ((LanzaGuisante) plant).attack(gameBoard);
             }
-            else if (entity instanceof Zombie){
-                ((Zombie) entity).attack(gameBoard);
+        }
+        for (Entity zombie : zombiesInBoard){
+            if (zombie instanceof Zombie){
+                ((Zombie) zombie).attack(gameBoard);
             }
         }
 

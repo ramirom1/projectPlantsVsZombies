@@ -31,8 +31,6 @@ public class Board {
         }
     }
 
-
-
     public List<Entity> getEntitiesAt(int x, int y) {
         if (x >= 0 && x < FILAS && y >= 0 && y < COL) {
             List<Entity> listSorted = board[x][y];
@@ -67,7 +65,7 @@ public class Board {
                             contentBuilder.append("R ");
                         } else if (entity instanceof HielaGuisante) {
                             contentBuilder.append("H ");
-                        } else if (entity instanceof LanzaGisante) {
+                        } else if (entity instanceof LanzaGuisante) {
                             contentBuilder.append("La ");
                         } else if (entity instanceof Patatapum) {
                             contentBuilder.append("Pp ");

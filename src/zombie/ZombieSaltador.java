@@ -11,8 +11,4 @@ public class ZombieSaltador extends Zombie {
         super(row,board,listClassification);
         this.setName("Zombie Saltador");
     }
-
-    //Falta implementar, lo podemos manejar desde game.Board
-    public void jump(){
-    }
 }

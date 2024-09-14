@@ -4,17 +4,16 @@ import Entity.Attack;
 import Entity.Entity;
 import zombie.Zombie;
 import game.Board;
-
 import java.util.LinkedList;
 import java.util.List;
 
-public class LanzaGisante extends Plants implements Attack {
-    private int demage;
-    private boolean slowDown = false;
+public class LanzaGuisante extends Plants implements Attack {
+    private int damage;
+    protected boolean slowDown = false;
 
-    public LanzaGisante(int column, int row, Board board, LinkedList<Entity> listClassification) {
-        super("Lanza Guisante",500,column,row,100,1,1,board,listClassification);
-        this.demage = 100;
+    public LanzaGuisante(int column, int row, Board board, LinkedList<Entity> listClassification) {
+        super("Lanza Guisante",500,column,row,100,board,listClassification);
+        this.damage = 100;
     }
 
     //implementacion attack
@@ -31,13 +30,11 @@ public class LanzaGisante extends Plants implements Attack {
             // Buscar al primer zombie en la casilla actual
             for (Entity entity : entities) {
                 if (entity instanceof Zombie) {
-                    ((Zombie) entity).takeDamage(this.getDemage()); // La planta ataca al zombie
+                    ((Zombie) entity).takeDamage(this.getDamage()); // La planta ataca al zombie
                     if (slowDown){
                         ((Zombie) entity).setSpeed(0);
                         ((Zombie) entity).setTotalFreezedRounds(0);
                     }
-                    System.out.println("Lanza Guisante atacó al zombie en (" + (entity.getRow()+1) + ", " + (entity.getColumn()+1) + "). - Life: " + entity.getLife());
-
                     return; // Salimos del método tras atacar al primer zombie encontrado
                 }
             }
@@ -46,13 +43,13 @@ public class LanzaGisante extends Plants implements Attack {
 
 
     //get daño
-    public int getDemage() {
-        return demage;
+    public int getDamage() {
+        return damage;
     }
 
     //set daño
-    public void setDemage(int demage) {
-        this.demage = demage;
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
 
     public boolean isSlowDown() {

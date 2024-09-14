@@ -9,7 +9,7 @@ public class Nuez extends Plants{
 
     //constructor
     public Nuez(int column, int row, Board board, LinkedList<Entity> listClassification) {
-        super("Nuez",1500,column,row,50,1,1,board,listClassification);
+        super("Nuez",1500,column,row,50,board,listClassification);
     }
 
 }
