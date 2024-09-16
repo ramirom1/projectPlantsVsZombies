@@ -16,7 +16,7 @@ public class Game {
     private static LinkedList<Entity> zombiesInBoard = new LinkedList<Entity>();
     private static Scanner scanner = new Scanner(System.in);
     private static Board gameBoard = new Board();
-    private static int currentRound = 0, totalSuns = 500;
+    private static int currentRound = 0, totalSuns = 50;
     private static boolean continueGame = true;
     private static Random random = new Random();
 
@@ -64,7 +64,9 @@ public class Game {
             System.out.println("-------------------------------------------------------------------------------------------------------------");
             System.out.println(" ");
             currentRound++;
-            if (currentRound == 30){continueGame = false;}
+            if (currentRound == 30){
+                continueGame = false;
+                System.out.println("FELICIDADES!!! LOS ZOMBIES HAN SIDO DERROTADOS");}
         }
         System.out.println("Juego finalizado");
     }
@@ -376,7 +378,7 @@ public class Game {
      * y exista el tipo de planta base necesario
      */
     public static void shop(){
-        System.out.println("EYEYEY AQUÍ CRAZY DAVE,¿No quieres mejorar alguna aliada? (S/N)");
+        System.out.println("EYEYEY AQUI CRAZY DAVE,¿No quieres mejorar alguna aliada? (S/N)");
         if (Character.toLowerCase(scanner.next().charAt(0)) == 's') {
             System.out.println("Planta               Coste");
             System.out.println("1- Birasol            150");
