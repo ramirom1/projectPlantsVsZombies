@@ -8,11 +8,24 @@ import zombie.Zombie;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Representa el comportamiento de una planta de tipo Patatapum.
+ * Hereda de {@code Plants} e implementa la interfaz {@code Attack}
+ */
 public class Patatapum extends Plants implements Attack {
     private int damage;
     private int roundsSincePlanted;
 
     //constuctor
+
+    /**
+     * Constructor de la clase {@code Patatapum}.
+     * Asigna por defecto el nombre, vida y coste en soles.
+     * @param column Columna del tablero donde se ubica
+     * @param row Fila del tablero donde se ubica
+     * @param board Referencia al tablero donde se encuentra
+     * @param listClassification Clasificacion de entidades a la que pertenece
+     */
     public Patatapum(int column, int row,Board board, LinkedList<Entity> listClassification) {
         super("Patatapum",500,column,row, 25,board,listClassification);
         this.damage = 1500;
@@ -21,6 +34,11 @@ public class Patatapum extends Plants implements Attack {
 
     //accion de explotar
     // método que hace la explosión de la Patatapum
+
+    /**
+     * Realiza el ataque de patatapum, eliminando los zombies sobre su posición.
+     * @param board Tablero donde se encuentra ubicada la instancia de Patatapum
+     */
     public void attack(Board board) {
         // Obtener la posición de la Patatapum
         int row = this.getRow();

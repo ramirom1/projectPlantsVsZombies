@@ -7,16 +7,33 @@ import game.Board;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Representa el comportamiento de una planta de tipo LanzaGuisante.
+ * Hereda de {@code Plants} e implementa la interfaz de {@code Attack}
+ */
 public class LanzaGuisante extends Plants implements Attack {
     private int damage;
     protected boolean slowDown = false;
 
+    /**
+     * Constructor de la clase {@code LanzaGuisante}.
+     * Asigna sus atributos como salud, coste en soles, nombre y daño.
+     * @param column Columna del tablero donde se ubica
+     * @param row Fila del tablero donde se ubica
+     * @param board Referencia al tablero donde se encuentra
+     * @param listClassification Clasificacion de entidades a la que pertenece
+     */
     public LanzaGuisante(int column, int row, Board board, LinkedList<Entity> listClassification) {
         super("Lanza Guisante",500,column,row,100,board,listClassification);
         this.damage = 100;
     }
 
     //implementacion attack
+
+    /**
+     * Realiza la acción de atacar a un zombie, restandole la vida correspondiente.
+     * @param board Tablero donde se ubican tanto el LanzaGuisante como el zombie al que ataca.
+     */
     public void attack(Board board) {
         // Obtener la posición de la planta
         int column = this.getColumn();

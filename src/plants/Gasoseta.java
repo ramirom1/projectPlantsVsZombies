@@ -8,8 +8,21 @@ import zombie.Zombie;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Representa el comportamiento de una planta de tipo Gasoseta
+ * Hereda de {@code Patatapum}
+ */
 public class Gasoseta extends Patatapum {
     private int radio = 1;
+
+    /**
+     * Constructor de la clase {@code Gasoseta}. Asigna por defecto el radio de ataque, el nombre,
+     * el daño y el coste en soles.
+     * @param column Columna del tablero donde se ubica
+     * @param row Fila del tablero donde se ubica
+     * @param board Referencia al tablero donde se encuentra
+     * @param listClassification Clasificacion de entidades a la que pertenece
+     */
     public Gasoseta(int column,int row,Board board, LinkedList<Entity> listClassification) {
         super(column,row,board,listClassification);
         this.radio = 1;
@@ -18,9 +31,13 @@ public class Gasoseta extends Patatapum {
         this.setSunCost(150);
     }
 
+
+    /**
+     * Sobreescribe el metodo {@code attack} para adaptarlo a la forma de Gasoseta. Ataca en todas las direcciones
+     * a lo largo de una casilla.
+     */
     @Override
     public void attack(Board board) {
-        // Explosión en un área de 3x3 alrededor de la Petacereza
         int row = this.getRow();
         int column = this.getColumn();
         for (int i = row - 1; i <= row + 1; i++) {

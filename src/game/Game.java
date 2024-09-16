@@ -6,6 +6,10 @@ import java.util.Random;
 import java.util.*;
 
 //maneja el juego (turnos, quita de vida,etc)
+
+/**
+ * Es la encargada de gestionar la jugabilidad, desde donde se va a ejecutar el proyecto
+ */
 public class Game {
     private static LinkedList<Entity> aggrPlants = new LinkedList<Entity>();
     private static LinkedList<Entity> nonAggrPlants = new LinkedList<Entity>();
@@ -65,6 +69,10 @@ public class Game {
         System.out.println("Juego finalizado");
     }
 
+    /**
+     * Su función es sumar soles al contador totalSuns, 25 por cada girasol y 50 por cada Birasol
+     * @param nonAggrPlants Lista de plantas no agresivas
+     */
     //Por cada girasol o birasol se suman 25 o 50 soles
     public static void collectSuns(LinkedList<Entity> nonAggrPlants) {
         int sunsCounter = 0;
@@ -79,6 +87,10 @@ public class Game {
         System.out.println("Se han recolectado " + sunsCounter + " soles");
     }
 
+    /**
+     * Va a preguntarle al jugador si desea plantar alguna planta, y en caso de obtener una respuesta positiva
+     * la agrega al tablero
+     */
     public static void plant() {
         boolean continuePlanting = true;
         while (continuePlanting) {
@@ -205,6 +217,11 @@ public class Game {
         }
     }
 
+    /**
+     * Indica si, en la lista pasada como argumento, existe una instancia de planta
+     * @param list Lista que pertenece al tablero (gameBoard)
+     * @return true si hay una planta en la lista, caso contrario retorna false
+     */
     public static boolean containsPlant(List<Entity> list){
         for (Entity entity : list) {
             if (entity instanceof Plants) {
@@ -214,6 +231,9 @@ public class Game {
         return false;
     }
 
+    /**
+     * Se encarga de la generación aleatoria de zombies
+     */
     public static void spawnZombies() {
         Zombie zombieType = null;
         int upperBound = random.nextInt(2)+1;
@@ -242,6 +262,9 @@ public class Game {
         }
     }
 
+    /**
+     * Realiza la ronda de ataque de las entidades agresivas
+     */
     public static void attackRound(){
         for (Entity plant : aggrPlants) {
             if (plant instanceof Guisantralladora){
@@ -278,12 +301,16 @@ public class Game {
 
     }
 
+    /**
+     * Realiza la ronda de los movimientos de los zombies
+     */
     public static void moveRound(){
         for (Entity zomb : zombiesInBoard){
             int speed = ((Zombie) zomb).getSpeed();
 
             // Si llegamos al final se termina el juego
             if (zomb.getColumn() == 0 && !containsPlant(gameBoard.board[zomb.getRow()][zomb.getColumn()])){
+                System.out.println("Un zombie ha alcanzado tu base. ¡Has sido derrotado!");
                 continueGame = false;
                 break;
             //Si no, se mueven los zombies
@@ -325,6 +352,10 @@ public class Game {
         }
     }
 
+    /**
+     * Mueve un zombie una casilla delante siempre que no esté sobre una planta
+     * @param zomb Zombie que va a ser movido
+     */
     public static void moveZombie(Entity zomb){
         if (!containsPlant(gameBoard.board[zomb.getRow()][zomb.getColumn()])) {
             gameBoard.board[zomb.getRow()][zomb.getColumn()].remove(zomb);
@@ -340,6 +371,10 @@ public class Game {
         }
     }
 
+    /**
+     * Despliega la tienda de Crazy Dave y realiza la mejora elegida en caso de que hayan suficientes soles
+     * y exista el tipo de planta base necesario
+     */
     public static void shop(){
         System.out.println("EYEYEY AQUÍ CRAZY DAVE,¿No quieres mejorar alguna aliada? (S/N)");
         if (Character.toLowerCase(scanner.next().charAt(0)) == 's') {
@@ -449,6 +484,10 @@ public class Game {
         }
     }
 
+    /**
+     * Despliega el menú para elegir una planta
+     * @return El número de planta elegido
+     */
     public static int choosePlant(){
         System.out.println("Planta              Coste");
         System.out.println("1- Girasol          50");

@@ -8,11 +8,24 @@ import zombie.Zombie;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Representa a la planta de tipo Petacereza.
+ * Hereda de {@code Plants} e implementa la interfaz {@code Attack}
+ */
 public class Petacereza extends Plants implements Attack {
     private int radio;
     private int damage;
 
     //constructor
+
+    /**
+     * Constructor de la clase {@code Petacereza}. Asigna por defecto el radio de ataque, el daño, la salud, su nombre
+     * y su coste en soles.
+     * @param column Columna del tablero donde se ubica
+     * @param row Fila del tablero donde se ubica
+     * @param board Referencia al tablero donde se encuentra
+     * @param listClassification Clasificacion de entidades a la que pertenece
+     */
     public Petacereza(int column,int row,Board board, LinkedList<Entity> listClassification) {
         super("Petacereza",600,column,row,150,board,listClassification);
         this.radio = 1;
@@ -21,6 +34,11 @@ public class Petacereza extends Plants implements Attack {
 
     ///SOLO ELIMINA EL PRIMER ZOMBIE
     //metodo que hace la explosion
+
+    /**
+     * Realiza la explosión de la Petacereza. Ocurre en un radio de 3x3 inflingiendo una gran cantidad de daño.
+     * @param board Referencia al tablero donde se encuentra ubicada
+     */
     public void attack(Board board) {
         // Explosión en un área de 3x3 alrededor de la Petacereza
         int row = this.getRow();

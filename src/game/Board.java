@@ -6,11 +6,17 @@ import java.util.*;
 import plants.*;
 import zombie.*;
 
+/**
+ * Encargada de representar al tablero del juego y contener información acerca de las entidades en juego
+ */
 public class Board {
     private final int COL = 10, FILAS = 5;
     private int counterRepetidora, counterGirasol, counterPatatapum;
     public List<Entity>[][] board;
 
+    /**
+     * Crea un tablero con una LinkedList de tipo entidad por cada casillero
+     */
     public Board(){
         this.counterRepetidora = 0;
         this.counterGirasol = 0;
@@ -24,6 +30,13 @@ public class Board {
     }
 
     //metodo para eliminar entidades del talbero
+
+    /**
+     * Elimina una entidad de una posición del tablero
+     * @param entity Entidad que se busca eliminar
+     * @param x Fila donde se encuentra la entidad
+     * @param y Columna donde se encuentra la entidad
+     */
     public void removeEntity(Entity entity, int x, int y) {
         if (x >= 0 && x < FILAS && y >= 0 && y < COL) {
             board[x][y].remove(entity);  // Remueve la entidad de la lista en la posición (x, y)
@@ -31,6 +44,12 @@ public class Board {
         }
     }
 
+    /**
+     * Busca una lista, que contiene entidades, en una posicion del tablero y la retorna
+     * @param x Fila donde se encuentra la entidad
+     * @param y Columna donde se encuentra la entidad
+     * @return La lista que se encuentra en la posicion del tablero introducida
+     */
     public List<Entity> getEntitiesAt(int x, int y) {
         if (x >= 0 && x < FILAS && y >= 0 && y < COL) {
             List<Entity> listSorted = board[x][y];
@@ -41,6 +60,9 @@ public class Board {
 
     }
 
+    /**
+     * Imprime por pantalla el tablero del juego
+     */
     public void printBoard() {
         for (int i = 0; i < FILAS; i++) {
             // Imprimir número de fila antes de cada fila
@@ -117,6 +139,12 @@ public class Board {
 
 
     // Método para obtener una lista ordenada de entidades
+
+    /**
+     * Ordena las entidades de una lista, dejando en la primer posición a las plantas
+     * @param entities Lista que se busca ordenar
+     * @return Lista ordenada
+     */
     public static List<Entity> getOrderedEntities(List<Entity> entities) {
         // Crear una copia de la lista para no modificar la original
         List<Entity> sortedEntities = new ArrayList<>(entities);
