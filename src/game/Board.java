@@ -89,6 +89,8 @@ public class Board {
                             contentBuilder.append("H ");
                         } else if (entity instanceof LanzaGuisante) {
                             contentBuilder.append("La ");
+                        } else if (entity instanceof Gasoseta) {
+                            contentBuilder.append("Gs ");
                         } else if (entity instanceof Patatapum) {
                             contentBuilder.append("Pp ");
                         }
