@@ -32,6 +32,7 @@ public class Game {
             moveRound();
 
             System.out.println("Ronda: " + (currentRound+1));
+            System.out.println("Cantidad de soles: " + totalSuns);
 
             //Desplegar tienda del Dave
             if (((currentRound + 1) % 10) == 0){shop();}
@@ -97,20 +98,28 @@ public class Game {
         boolean continuePlanting = true;
         while (continuePlanting) {
             System.out.println("Cantidad de soles: " + totalSuns);
-            System.out.println("Indique que planta quiere ubicar");
-            int plantNum = choosePlant();
+            System.out.println("Indique qué planta quiere ubicar");
 
-            // Determinar el tipo de planta basado en el costo
+            int plantNum = -1;
+            // Solicitar la planta
+            try {
+                plantNum = choosePlant();
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Debe ingresar un número.");
+                scanner.nextLine();  // Limpiar el buffer del scanner
+                continue;
+            }
+
             Plants plantType = null;
 
-            //Modificar ints de board
+            // Modificar ints de board
             switch (plantNum) {
                 case 1:
                     if (totalSuns >= 50) {
                         plantType = new Girasol(1, 1, gameBoard, nonAggrPlants);
                         nonAggrPlants.add(plantType);
                         totalSuns -= 50;
-                        gameBoard.setCounterGirasol(gameBoard.getCounterGirasol()+1);
+                        gameBoard.setCounterGirasol(gameBoard.getCounterGirasol() + 1);
                     } else {
                         System.out.println("No tienes suficientes soles");
                     }
@@ -147,7 +156,7 @@ public class Game {
                         plantType = new Repetidora(1, 1, gameBoard, aggrPlants);
                         aggrPlants.add(plantType);
                         totalSuns -= 150;
-                        gameBoard.setCounterRepetidora(gameBoard.getCounterRepetidora()+1);
+                        gameBoard.setCounterRepetidora(gameBoard.getCounterRepetidora() + 1);
                     } else {
                         System.out.println("No tienes suficientes soles");
                     }
@@ -157,7 +166,7 @@ public class Game {
                         plantType = new Patatapum(1, 1, gameBoard, aggrPlants);
                         aggrPlants.add(plantType);
                         totalSuns -= 25;
-                        gameBoard.setCounterPatatapum(gameBoard.getCounterPatatapum()+1);
+                        gameBoard.setCounterPatatapum(gameBoard.getCounterPatatapum() + 1);
                     } else {
                         System.out.println("No tienes suficientes soles");
                     }
@@ -181,39 +190,55 @@ public class Game {
                 boolean changePos = false;
 
                 do {
-                    System.out.println("Indique la fila: ");
-                    int rowToPlant = scanner.nextInt();
-                    while (rowToPlant < 1 || rowToPlant > 5) {
-                        System.out.println("Fila fuera de rango, ingrese nuevamente");
-                        rowToPlant = scanner.nextInt();
-                    }
+                    int rowToPlant = -1;
+                    int columnToPlant = -1;
 
-                    System.out.println("Indique la columna: ");
-                    int columnToPlant = scanner.nextInt();
-                    while (columnToPlant < 1 || columnToPlant > 10) {
-                        System.out.println("Columna fuera de rango, ingrese nuevamente");
+                    try {
+                        System.out.println("Indique la fila: ");
+                        rowToPlant = scanner.nextInt();
+                        while (rowToPlant < 1 || rowToPlant > 5) {
+                            System.out.println("Fila fuera de rango, ingrese nuevamente");
+                            rowToPlant = scanner.nextInt();
+                        }
+
+                        System.out.println("Indique la columna: ");
                         columnToPlant = scanner.nextInt();
+                        while (columnToPlant < 1 || columnToPlant > 10) {
+                            System.out.println("Columna fuera de rango, ingrese nuevamente");
+                            columnToPlant = scanner.nextInt();
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Entrada inválida. Debes ingresar un número.");
+                        scanner.nextLine(); // Limpiar el buffer del scanner
+                        changePos = true;
+                        continue;  // Reintentar
                     }
 
                     if (!containsPlant(gameBoard.board[rowToPlant - 1][columnToPlant - 1])) {
-                        //asignarle la fila y columna a la planta
+                        // Asignar la fila y columna a la planta
                         plantType.setRow(rowToPlant - 1);
                         plantType.setColumn(columnToPlant - 1);
                         // Colocar la planta en el tablero
-                        gameBoard.board[rowToPlant - 1][columnToPlant - 1].add(0,plantType);
+                        gameBoard.board[rowToPlant - 1][columnToPlant - 1].add(0, plantType);
                         changePos = false;
+                        gameBoard.printBoard();
                     } else {
-                        System.out.println("Esa posicion ya está ocupada, ingrese otra distinta");
+                        System.out.println("Esa posición ya está ocupada, ingrese otra distinta");
                         changePos = true;
                     }
                 } while (changePos);
             }
 
-            scanner.nextLine();
+            scanner.nextLine();  // Limpiar el buffer del scanner
 
-            System.out.println("¿Desea plantar nuevamente? (S/N)");
-            if (Character.toLowerCase(scanner.nextLine().charAt(0)) != 's') {
-                System.out.println("Pasando a la siguiente ronda");
+            try {
+                System.out.println("¿Desea plantar nuevamente? (S/N)");
+                if (Character.toLowerCase(scanner.nextLine().charAt(0)) != 's') {
+                    System.out.println("Pasando a la siguiente ronda");
+                    continuePlanting = false;
+                }
+            } catch (StringIndexOutOfBoundsException e) {
+                System.out.println("Entrada inválida. No se ingresó ninguna letra.");
                 continuePlanting = false;
             }
         }
@@ -377,120 +402,158 @@ public class Game {
      * Despliega la tienda de Crazy Dave y realiza la mejora elegida en caso de que hayan suficientes soles
      * y exista el tipo de planta base necesario
      */
-    public static void shop(){
-        System.out.println("EYEYEY AQUI CRAZY DAVE,¿No quieres mejorar alguna aliada? (S/N)");
-        if (Character.toLowerCase(scanner.next().charAt(0)) == 's') {
-            System.out.println("Planta               Coste");
-            System.out.println("1- Birasol            150");
-            System.out.println("2- Guisantralladora   250");
-            System.out.println("3- Gasoseta           150");
+    public static void shop() {
+        System.out.println("EYEYEY AQUI CRAZY DAVE, ¿No quieres mejorar alguna aliada? (S/N)");
 
-            int choice = scanner.nextInt();
-            while (choice < 1 || choice > 3) {
-                System.out.println("Opción no válida, elige nuevamente");
-                choice = scanner.nextInt();
-            }
+        try {
+            if (Character.toLowerCase(scanner.next().charAt(0)) == 's') {
+                System.out.println("Planta               Coste");
+                System.out.println("1- Birasol            150");
+                System.out.println("2- Guisantralladora   250");
+                System.out.println("3- Gasoseta           150");
 
-            String basePlant = null;
-            Plants upgradedPlant = null;
-            switch (choice) {
-                case 1: // Birasol
-                    if (totalSuns >= 150) {
-                        if (gameBoard.getCounterGirasol() > 0){
-                            upgradedPlant = new Birasol(1,1, gameBoard, nonAggrPlants);
-                            basePlant = "Girasol";
-                            totalSuns -= 150;
-                        } else {
-                            System.out.println("No hay ningun girasol en el tablero");
-                            return;
-                        }
-                    } else {
-                        System.out.println("No tienes suficientes soles");
-                    }
-                    break;
-                case 2: // Guisantralladora
-                    if (totalSuns >= 250) {
-                        if (gameBoard.getCounterRepetidora() > 0){
-                            upgradedPlant = new Guisantralladora(1,1, gameBoard, aggrPlants);
-                            basePlant = "Repetidora";
-                            totalSuns -= 250;
-                        } else {
-                            System.out.println("No hay ninguna repetidora en el tablero");
-                            return;
-                        }
-                    } else {
-                        System.out.println("No tienes suficientes soles");
-                    }
-                    break;
-                case 3: // Gasoseta
-                    if (totalSuns >= 150) {
-                        if (gameBoard.getCounterPatatapum() > 0){
-                            upgradedPlant = new Gasoseta(1, 1, gameBoard, aggrPlants);
-                            basePlant = "Patatapum";
-                            totalSuns -= 150;
-                        } else {
-                            System.out.println("No hay ninguna patatapum en el tablero");
-                            return;
-                        }
-                    } else {
-                        System.out.println("No tienes suficientes soles");
-                    }
-                    break;
-                default:
-                    System.out.println("Opción inválida.");
-                    break;
-            }
-
-
-            if (upgradedPlant != null) {
-                // Pedir la fila y columna
-                boolean changePos = false;
-
+                int choice = -1;
+                boolean validInput = false;
                 do {
-                    System.out.println("Indique la fila donde quiere implementar la mejora: ");
-                    int rowToPlant = scanner.nextInt();
-                    while (rowToPlant < 1 || rowToPlant > 5) {
-                        System.out.println("Fila fuera de rango, ingrese nuevamente");
-                        rowToPlant = scanner.nextInt();
+                    try {
+                        choice = scanner.nextInt();
+                        if (choice >= 1 && choice <= 3) {
+                            validInput = true;
+                        } else {
+                            System.out.println("Opción no válida, elige nuevamente");
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Entrada inválida. Debe ingresar un número.");
+                        scanner.nextLine(); // Limpiar buffer
                     }
+                } while (!validInput);
 
-                    System.out.println("Indique la columna donde quiere implementar la mejora: ");
-                    int columnToPlant = scanner.nextInt();
-                    while (columnToPlant < 1 || columnToPlant > 10) {
-                        System.out.println("Columna fuera de rango, ingrese nuevamente");
-                        columnToPlant = scanner.nextInt();
-                    }
+                String basePlant = null;
+                Plants upgradedPlant = null;
+                switch (choice) {
+                    case 1: // Birasol
+                        if (totalSuns >= 150) {
+                            if (gameBoard.getCounterGirasol() > 0) {
+                                upgradedPlant = new Birasol(1, 1, gameBoard, nonAggrPlants);
+                                basePlant = "Girasol";
+                                totalSuns -= 150;
+                            } else {
+                                System.out.println("No hay ningún girasol en el tablero");
+                                return;
+                            }
+                        } else {
+                            System.out.println("No tienes suficientes soles");
+                        }
+                        break;
+                    case 2: // Guisantralladora
+                        if (totalSuns >= 250) {
+                            if (gameBoard.getCounterRepetidora() > 0) {
+                                upgradedPlant = new Guisantralladora(1, 1, gameBoard, aggrPlants);
+                                basePlant = "Repetidora";
+                                totalSuns -= 250;
+                            } else {
+                                System.out.println("No hay ninguna repetidora en el tablero");
+                                return;
+                            }
+                        } else {
+                            System.out.println("No tienes suficientes soles");
+                        }
+                        break;
+                    case 3: // Gasoseta
+                        if (totalSuns >= 150) {
+                            if (gameBoard.getCounterPatatapum() > 0) {
+                                upgradedPlant = new Gasoseta(1, 1, gameBoard, aggrPlants);
+                                basePlant = "Patatapum";
+                                totalSuns -= 150;
+                            } else {
+                                System.out.println("No hay ninguna patatapum en el tablero");
+                                return;
+                            }
+                        } else {
+                            System.out.println("No tienes suficientes soles");
+                        }
+                        break;
+                    default:
+                        System.out.println("Opción inválida.");
+                        break;
+                }
 
-                    String targetName;
-                    if (gameBoard.board[rowToPlant - 1][columnToPlant - 1].size() == 0){
-                        targetName = null;
-                    } else{
-                        targetName = gameBoard.board[rowToPlant - 1][columnToPlant - 1].get(0).getName();
-                    }
+                if (upgradedPlant != null) {
+                    // Pedir la fila y columna
+                    boolean changePos = false;
 
-                    if (Objects.equals(targetName, basePlant)) {
-                        gameBoard.board[rowToPlant - 1][columnToPlant - 1].removeIf(basePlantDel -> basePlantDel instanceof Plants);
-                        //asignarle la fila y columna a la planta
-                        upgradedPlant.setRow(rowToPlant - 1);
-                        upgradedPlant.setColumn(columnToPlant - 1);
-                        // Colocar la planta en el tablero
-                        gameBoard.board[rowToPlant - 1][columnToPlant - 1].add(0,upgradedPlant);
-                        changePos = false;
-                    } else {
-                        System.out.println("La plante base no coincide con su mejora. Escoja una posición válida");
-                        changePos = true;
-                    }
-                } while (changePos);
+                    do {
+                        int rowToPlant = -1;
+                        int columnToPlant = -1;
+                        boolean validPosition = false;
+
+                        do {
+                            try {
+                                System.out.println("Indique la fila donde quiere implementar la mejora: ");
+                                rowToPlant = scanner.nextInt();
+                                if (rowToPlant >= 1 && rowToPlant <= 5) {
+                                    validPosition = true;
+                                } else {
+                                    System.out.println("Fila fuera de rango, ingrese nuevamente");
+                                }
+                            } catch (InputMismatchException e) {
+                                System.out.println("Entrada inválida. Debe ingresar un número.");
+                                scanner.nextLine(); // Limpiar buffer
+                            }
+                        } while (!validPosition);
+
+                        validPosition = false;
+                        do {
+                            try {
+                                System.out.println("Indique la columna donde quiere implementar la mejora: ");
+                                columnToPlant = scanner.nextInt();
+                                if (columnToPlant >= 1 && columnToPlant <= 10) {
+                                    validPosition = true;
+                                } else {
+                                    System.out.println("Columna fuera de rango, ingrese nuevamente");
+                                }
+                            } catch (InputMismatchException e) {
+                                System.out.println("Entrada inválida. Debe ingresar un número.");
+                                scanner.nextLine(); // Limpiar buffer
+                            }
+                        } while (!validPosition);
+
+                        String targetName;
+                        if (gameBoard.board[rowToPlant - 1][columnToPlant - 1].size() == 0){
+                            targetName = null;
+                        } else{
+                            targetName = gameBoard.board[rowToPlant - 1][columnToPlant - 1].get(0).getName();
+                        }
+
+                        if (Objects.equals(targetName, basePlant)) {
+                            gameBoard.board[rowToPlant - 1][columnToPlant - 1].removeIf(basePlantDel -> basePlantDel instanceof Plants);
+                            upgradedPlant.setRow(rowToPlant - 1);
+                            upgradedPlant.setColumn(columnToPlant - 1);
+                            gameBoard.board[rowToPlant - 1][columnToPlant - 1].add(0, upgradedPlant);
+                            changePos = false;
+                        } else {
+                            System.out.println("La planta base no coincide con su mejora. Escoja una posición válida");
+                            changePos = true;
+                        }
+                    } while (changePos);
+                }
             }
-            scanner.nextLine();
+        } catch (InputMismatchException e) {
+            System.out.println("Entrada inválida. Operación cancelada.");
+            scanner.nextLine(); // Limpiar buffer en caso de excepción
         }
+        scanner.nextLine();
     }
 
     /**
      * Despliega el menú para elegir una planta
      * @return El número de planta elegido
      */
-    public static int choosePlant(){
+    public static int choosePlant() {
+        int answer = -1;
+        boolean validInput = false;
+
+        // Imprimir la lista de plantas y sus costos
         System.out.println("Planta              Coste");
         System.out.println("1- Girasol          50");
         System.out.println("2- LanzaGuisantes   100");
@@ -499,11 +562,25 @@ public class Game {
         System.out.println("5- Repetidora       150");
         System.out.println("6- Patatapum        25");
         System.out.println("7- Petacereza       150");
-        int answer = scanner.nextInt();
-        while (answer < 1 || answer > 7) {
-            System.out.println("Opcion no valida, ingrese nuevamente");
-            answer = scanner.nextInt();
-        }
+
+        // Bucle para pedir la opción de planta
+        do {
+            try {
+                System.out.println("Ingrese el número correspondiente a la planta que desea elegir: ");
+                answer = scanner.nextInt();
+
+                // Validar que esté dentro del rango permitido
+                if (answer >= 1 && answer <= 7) {
+                    validInput = true;  // Si la opción es válida, salimos del bucle
+                } else {
+                    System.out.println("Opción no válida, ingrese nuevamente");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Debe ingresar un número.");
+                scanner.nextLine();  // Limpiar el buffer del scanner
+            }
+        } while (!validInput);  // Repetir hasta obtener una opción válida
+
         return answer;
     }
 }
